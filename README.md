@@ -265,6 +265,33 @@ Project TOTAL (5 contracts, EUR 1,350.5M BAC)
 
 ## Using the Budget Estimator Skill
 
+The budget-estimator skill generates AACE-classified parametric CAPEX estimates
+with P50 (central estimate) and P90 (risk-adjusted ceiling) values from a
+10,000-iteration Monte Carlo simulation. It is designed for the pre-FID window:
+after concept screening but before the engineering definition required for a
+bottom-up takeoff.
+
+Unlike a single-point estimate, P50/P90 output makes the range of uncertainty
+explicit. The estimate class (1–5) sets the accuracy bounds:
+
+| AACE Class | Phase | Accuracy | Contingency basis |
+|-----------|-------|---------|------------------|
+| 5 | Concept screening | −20% / +50% | Screening-level decisions |
+| 4 | Pre-FEED | −15% / +30% | Budget placeholder |
+| 3 | FEED completion | −10% / +20% | FID preparation |
+| 2 | Detailed design | −5% / +15% | Contract award basis |
+| 1 | Definitive | −3% / +10% | Final account / claims |
+
+The Monte Carlo engine samples each work package using a **triangular
+distribution** (low = P10 bound, base = central estimate, high = P90 bound) and
+sums 10,000 independent draws. The resulting cost distribution captures both the
+central outcome and the tail risk. Contingency is reported as P90 − P50 — sized
+by the actual shape of the distribution, not a flat percentage.
+
+A **sensitivity tornado chart** ranks work packages by Spearman rank correlation
+with total CAPEX across all iterations, showing exactly which elements drive the
+P90 and where additional engineering definition would most reduce uncertainty.
+
 ### Automatic activation
 
 The skill activates when you mention any of the following in Claude Code:

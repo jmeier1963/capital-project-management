@@ -361,27 +361,8 @@ when user prompts match the trigger phrases defined in `SKILL.md`.
 | `csv-data-summarizer` | Marketplace | Statistical summary of cost registers and change order logs |
 | `meeting-insights-analyzer` | Marketplace | Extract action items and decisions from meeting notes |
 
-**The EVM skill** triggers on "EVM", "earned value", "CPI/SPI", or any CSV
-with columns `bac`, `bcws_cum`, `bcwp_cum`, `acwp_cum`. It auto-detects
-snapshot vs. time-phased format and generates a complete ANSI/EIA-748 report
-in under two minutes.
-
-**The budget-estimator skill** triggers on "estimate CAPEX", "P50/P90",
-"budget estimate", or "what will this cost". It accepts a YAML work-package
-definition or a set of CLI parameters and runs 10,000 Monte Carlo iterations
-using triangular distributions calibrated to the AACE estimate class selected.
-Each work package can be specified parametrically (using the pipeline-cost
-heuristics: EUR/km by diameter and terrain, H2 service premium, compression
-station cost per MW) or as a direct cost entry with an uncertainty range.
-
-The output is an AACE-classified estimate report with three values: P10
-(optimistic boundary), P50 (central planning estimate), and P90 (risk-adjusted
-ceiling for budget approval). A sensitivity tornado chart ranks the work
-packages by their contribution to the P90–P10 spread, identifying where
-contingency is being driven and where engineering definition would most reduce
-uncertainty. On the hydrogen pipeline example, the Class 3 estimate produces a
-P50 of EUR 1,833M and a P90 of EUR 1,930M against the approved FID CAPEX of
-EUR 1,749M — consistent with the ±20% accuracy band of a FEED-stage estimate.
+Skills activate automatically on matching trigger phrases, as described in
+sections 2.3 and 2.4 below.
 
 ---
 
@@ -464,7 +445,74 @@ linepipe delivery delay caused by port congestion, and if SPI remains below 0.85
 in the June reporting period, the two-consecutive-period escalation rule fires
 automatically, generating a mandatory written notice to the Project Director.
 
-### 2.4 Integration with Existing Tools
+### 2.4 The Budget Estimator: Probabilistic CAPEX at Pre-FID Stage
+
+#### Why Single-Point Estimates Fail Before Final Investment Decision
+
+The standard practice in capital project development is to produce a single-point
+cost estimate at each stage gate — a number that is then treated as a commitment
+rather than a probability. This creates a structural problem: single-point
+estimates carry implicit assumptions about scope, productivity, and market
+conditions that are never made explicit and that are rarely interrogated by
+reviewers who see only the final number.
+
+The consequence is systematic optimism bias. IPA research across 20,000 projects
+shows that single-point estimates systematically underestimate final cost because
+estimators anchor to base conditions and underweight the upper tail of the cost
+distribution — tail events (changed ground conditions, regulatory delays, supply
+chain disruptions) that are individually unlikely but collectively almost certain
+to affect a multi-year capital project.
+
+The AACE International recommended practice RP 18R-97 addresses this directly: a
+project's cost estimate should be accompanied by a probability distribution, not
+just a central value, and contingency should be sized to cover the P80 or P90
+outcome, not the P50 alone. In practice, this requirement is rarely met because
+building a proper Monte Carlo model requires specialist software and significant
+effort. The budget-estimator skill removes that barrier.
+
+#### What the Budget Estimator Delivers
+
+Given a YAML work-package definition or a set of CLI parameters, the budget
+estimator runs 10,000 Monte Carlo iterations using triangular distributions
+calibrated to the selected AACE estimate class, and produces in under one minute:
+
+- **P10, P50, and P90 CAPEX values** — the 10th, 50th, and 90th percentiles of
+  the simulated cost distribution. P50 is the planning basis; P90 is the
+  risk-adjusted ceiling for budget approval and contingency sizing
+- **A cost distribution histogram** showing the full shape of the simulation
+  output, making visible whether the distribution is approximately symmetric or
+  heavily right-skewed (indicating large upside risk)
+- **A sensitivity tornado chart** ranking work packages by their Spearman rank
+  correlation with total CAPEX across all iterations — identifying precisely which
+  cost elements are driving the P90 and where additional engineering definition
+  would most reduce uncertainty
+- **A work-package breakdown chart** comparing P50 and P90 by WBS element,
+  making it possible to direct contingency toward the packages that need it rather
+  than spreading it uniformly
+
+Each work package can be specified parametrically — using the heuristics library
+(EUR/km by pipe diameter and terrain, H2 material premium, compression station
+cost per MW) — or as a direct cost entry with an uncertainty range. The AACE
+estimate class (1 through 5) is selected by the user and determines the default
+accuracy bounds applied to each work package: Class 5 (conceptual screening)
+applies −20%/+50%; Class 3 (FEED-stage study) applies −10%/+20%; Class 1
+(definitive) applies −3%/+10%.
+
+Contingency is reported as P90 minus P50, not as a flat percentage added to a
+point estimate. This means the contingency is sensitive to actual scope
+definition — packages with high parametric uncertainty contribute more to the
+P90 gap than packages with tight engineering definitions, which is the correct
+behaviour for managing pre-FID risk.
+
+On the hydrogen pipeline example, the Class 3 estimate produces a P50 of
+EUR 1,833M and a P90 of EUR 1,930M against the approved FID CAPEX of
+EUR 1,749M. The P50 is 5 percent above the approved budget — within the ±10/20%
+accuracy band of a FEED-stage estimate — and the P90 implies a contingency
+requirement of EUR 97M (5.3%). The tornado chart identifies WBS-1.1 (Mainline
+North) as the dominant driver of the P90 spread, consistent with the ground
+conditions risk identified in the project risk register.
+
+### 2.5 Integration with Existing Tools
 
 The system reads data that capital project organisations are already producing;
 it does not require replacing any existing tool.
