@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Contract",
+  "description": "Contract register entry for a single EPC, EPCM, or service agreement",
+  "type": "object",
+  "required": ["contract_id", "title", "contractor", "type", "currency", "contract_value", "signed_date", "status"],
+  "properties": {
+    "contract_id":     { "type": "string" },
+    "title":           { "type": "string" },
+    "contractor":      { "type": "string" },
+    "type":            { "type": "string", "enum": ["lump_sum", "reimbursable", "EPCM", "T&M", "unit_rate", "framework"] },
+    "currency":        { "type": "string", "enum": ["EUR", "USD", "GBP", "NOK", "DKK"] },
+    "contract_value":  { "type": "number", "minimum": 0 },
+    "signed_date":     { "type": "string", "format": "date" },
+    "NTP_date":        { "type": ["string", "null"], "format": "date" },
+    "completion_date": { "type": ["string", "null"], "format": "date" },
+    "status":          { "type": "string", "enum": ["pending", "active", "suspended", "closed", "disputed"] },
+    "current_forecast":   { "type": ["number", "null"] },
+    "approved_COs_value": { "type": ["number", "null"], "description": "Total approved change order value" },
+    "pending_COs_value":  { "type": ["number", "null"], "description": "Total pending/unapproved CO value" },
+    "LD_rate_per_day":    { "type": ["number", "null"], "description": "Liquidated damages rate (EUR/day)" },
+    "LD_cap_pct":         { "type": ["number", "null"], "description": "LD cap as % of contract value" },
+    "notes":              { "type": "string" }
+  }
+}

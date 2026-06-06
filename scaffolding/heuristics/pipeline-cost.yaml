@@ -1,0 +1,55 @@
+# Hydrogen Pipeline Cost Heuristics
+# Source: IPA benchmarking 2024 + DVGW H2 Readiness Study (Germany),
+#         adjusted for H2 service and German construction market
+# Valid for: DN300–DN600, onshore, Class 600, Germany / Western Europe
+# Accuracy: ±25% (consistent with Class 4 estimate)
+# Version: 1.0 | Updated: 2025-01
+
+base_cost_per_km_installed_eur:
+  DN300: 1_850_000
+  DN400: 2_400_000
+  DN500: 3_100_000
+  DN600: 3_900_000
+
+adjustment_factors:
+  # Material and specification premiums
+  h2_service_material_premium: 0.15        # HIC-tested X70, H2-grade valves, fittings
+  h2_weld_procedure_premium:   0.08        # Additional WPS qualification, NDT
+
+  # Terrain multipliers (applied to base installed cost)
+  flat_agricultural:           1.00        # Reference baseline
+  gently_rolling:              1.10
+  mountainous_or_rock:         1.35
+  urban_corridor_hdd_heavy:    1.50        # > 40% of route length as HDD
+
+  # Crossing unit costs (EUR per crossing, trenchless)
+  river_crossing_major:        1_200_000   # > 50m width, HDD or open-cut coffer dam
+  river_crossing_minor:        350_000     # < 50m width
+  road_crossing_hdd:           55_000
+  railway_crossing:            85_000
+
+compression_station:
+  cost_per_mw_installed_eur:   2_200_000   # Reciprocating compressor, H2 gas
+  typical_spacing_km:          150
+  h2_seal_system_premium:      0.12        # Dry gas seals rated for H2
+
+block_valve_station:
+  cost_per_unit_eur:           280_000
+
+contingency_by_phase:
+  conceptual_class5: 0.40
+  pre_FEED_class4:   0.30
+  FEED_class3:       0.15
+  execution_class2:  0.10
+  final_class1:      0.05
+
+escalation:
+  annual_pct_DE_construction_index: 0.035  # 2024–2028 forecast
+
+owner_cost_as_pct_of_epc:     0.12         # Engineering, PM, insurance, permitting
+
+# Productivity norms — see productivity-norms.yaml for detail
+# Reference only; do not use for schedule calculations without consulting that file
+pipeline_welding_reference:
+  joints_per_welder_shift_DN400: 4.5
+  h2_wps_qualification_factor:   0.85

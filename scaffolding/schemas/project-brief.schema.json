@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ProjectBrief",
+  "description": "Top-level project definition — populated at FID and updated at each stage gate",
+  "type": "object",
+  "required": ["project_id", "project_name", "status", "phase", "fid_date", "approved_capex_eur", "milestones"],
+  "properties": {
+    "project_id":    { "type": "string", "pattern": "^[A-Z0-9-]+$", "examples": ["H2-PIPE-DE-001"] },
+    "project_name":  { "type": "string" },
+    "status":        { "type": "string", "enum": ["concept", "pre_FEED", "FEED", "pre_FID", "execution", "commissioning", "handover", "closed"] },
+    "phase":         { "type": "string", "enum": ["concept", "pre_FEED", "FEED", "execution", "commissioning", "closeout"] },
+    "fid_date":      { "type": "string", "format": "date" },
+    "approved_capex_eur": { "type": "number", "minimum": 0 },
+    "contingency_eur":    { "type": "number", "minimum": 0 },
+    "location": {
+      "type": "object",
+      "properties": {
+        "country": { "type": "string" },
+        "region":  { "type": "string" },
+        "length_km": { "type": "number" }
+      }
+    },
+    "key_codes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Applicable design codes, e.g. ASME B31.12, DVGW G 463"
+    },
+    "milestones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["milestone_id", "description", "planned_date", "critical_path"],
+        "properties": {
+          "milestone_id":  { "type": "string" },
+          "description":   { "type": "string" },
+          "planned_date":  { "type": "string", "format": "date" },
+          "forecast_date": { "type": ["string", "null"], "format": "date" },
+          "actual_date":   { "type": ["string", "null"], "format": "date" },
+          "critical_path": { "type": "boolean" },
+          "owner":         { "type": "string" }
+        }
+      }
+    }
+  }
+}

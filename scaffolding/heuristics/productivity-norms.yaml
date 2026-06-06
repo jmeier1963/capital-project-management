@@ -1,0 +1,65 @@
+# Labour Productivity Norms — Pipeline & Compression Projects
+# Source: IPA field data 2023, ECITB benchmarks, project-specific adjustments
+# Valid for: Western Europe, unionised workforce, standard working conditions
+# Version: 1.0 | Updated: 2025-01
+
+# ── Pipeline Construction ─────────────────────────────────────────────────────
+
+pipeline_welding:
+  joints_per_welder_shift:
+    DN300_wt_9mm_X70:    6.0
+    DN400_wt_12mm_X70:   4.5    # Reference standard
+    DN500_wt_14mm_X70:   3.2
+    DN600_wt_16mm_X70:   2.5
+  h2_wps_qualification_factor:  0.85  # Reduced output during initial WPS qual
+  all_position_field_factor:    0.70  # vs shop welding baseline
+  winter_productivity_factor:   0.80  # Nov–Feb, Northern Europe
+
+pipeline_lowering_in:
+  joints_per_crew_day_DN400:   180    # Side-boom spread, 5 joints/string
+
+trenching_open_cut:
+  m3_per_excavator_day:
+    soft_ground:          800
+    medium_ground:        450
+    rock_blasting:        120
+
+hdd_drilling:
+  m_per_day_small_rig:   15          # < DN300, soft ground
+  m_per_day_large_rig:   8           # DN400–600, mixed ground
+  learning_curve_factor: 0.90        # First HDD on new ground condition
+
+# ── Civil / Structural ────────────────────────────────────────────────────────
+
+civil:
+  grading_m3_per_crew_day:         800
+  concrete_pour_m3_per_crew_day:   60   # Foundations
+  piling_piles_per_rig_day:        4    # CFA pile, DN600 steel pile
+
+# ── Mechanical ────────────────────────────────────────────────────────────────
+
+mechanical:
+  compressor_installation_man_hours_per_mw: 420
+  large_vessel_erection_man_hours_per_tonne: 35
+  piping_installation_man_hours_per_inch_dia: 3.2  # Small bore; large bore divide by 2
+
+# ── Electrical & Instrumentation ─────────────────────────────────────────────
+
+electrical:
+  cable_pull_m_per_electrician_day: 150
+  instrument_loop_check_hours_per_loop: 4.5
+
+# ── Adjustments ───────────────────────────────────────────────────────────────
+
+location_factors:
+  germany_rural:     1.00   # Reference
+  germany_urban:     1.25
+  netherlands:       1.05
+  uk_onshore:        1.10
+  poland:            0.80
+
+learning_curve:
+  # Productivity improves over project duration as crews become familiar
+  months_1_to_3:  0.85
+  months_4_to_9:  0.95
+  months_10_plus: 1.05

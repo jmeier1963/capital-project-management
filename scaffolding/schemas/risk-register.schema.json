@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "RiskRegisterEntry",
+  "description": "Single entry in the project risk register",
+  "type": "object",
+  "required": ["risk_id", "category", "description", "probability", "impact_eur", "risk_score", "owner", "status"],
+  "properties": {
+    "risk_id":       { "type": "string", "pattern": "^R-[0-9]{3,}$" },
+    "category":      { "type": "string", "enum": ["technical", "schedule", "cost", "commercial", "regulatory", "HSE", "external", "force_majeure"] },
+    "description":   { "type": "string" },
+    "probability":   { "type": "string", "enum": ["very_low", "low", "medium", "high", "very_high"] },
+    "impact_eur":    { "type": "number", "minimum": 0 },
+    "risk_score":    { "type": "string", "enum": ["low", "medium", "high", "very_high", "critical"] },
+    "owner":         { "type": "string" },
+    "mitigation":    { "type": "string" },
+    "status":        { "type": "string", "enum": ["open", "at_risk", "materialised", "closed", "transferred"] },
+    "residual_score":{ "type": "string", "enum": ["low", "medium", "high", "very_high"] },
+    "linked_wbs":    { "type": "string", "description": "WBS code affected if risk materialises" },
+    "review_date":   { "type": ["string", "null"], "format": "date" }
+  }
+}
