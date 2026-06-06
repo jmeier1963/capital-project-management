@@ -7,9 +7,9 @@
 Large capital projects systematically underperform. Across a database of 16,000
 projects, Oxford University researchers found that only 8.5 percent met their
 original cost and schedule targets — and a mere 0.5 percent delivered all
-promised benefits on time and on budget.[^1] McKinsey's analysis of more than
+promised benefits on time and on budget.^1^ McKinsey's analysis of more than
 300 projects exceeding one billion dollars in value found average cost overruns
-of 80 percent and schedule delays of 50 percent.[^2] These are not outlier
+of 80 percent and schedule delays of 50 percent.^2^ These are not outlier
 statistics; they describe the norm.
 
 The root cause is not a shortage of engineering talent or project management
@@ -45,7 +45,7 @@ through AI systems and under what conditions.
 
 Flyvbjerg's landmark study — the largest empirical analysis of project
 performance ever conducted — established what he calls the "iron law of
-megaprojects": over budget, over time, over and over again.[^3] The headline
+megaprojects": over budget, over time, over and over again.^3^ The headline
 numbers bear repeating:
 
 - **91.5%** of projects exceed their original budget or schedule, or both
@@ -56,11 +56,11 @@ McKinsey adds sectoral granularity. Rail projects overrun by an average of 45
 percent. Bridges and tunnels by 35 percent. Mining and metals projects — among
 the most capital-intensive category — see 83 percent of major projects exceed
 planned CAPEX by more than 40 percent, with average delays of 20 to 30
-months.[^4]
+months.^4^
 
 The energy transition amplifies the stakes. The Hydrogen Council and McKinsey
 reported in 2025 that the global hydrogen sector has now committed over USD 110
-billion across more than 500 projects past Final Investment Decision.[^5] These
+billion across more than 500 projects past Final Investment Decision.^5^ These
 are projects where schedule delays translate directly into stranded capital,
 missed carbon commitments, and competitive disadvantage in a market where
 first-mover timing is commercially decisive.
@@ -71,7 +71,7 @@ The intuition that projects fail because of poor engineering or inadequate
 planning is only partially correct. McKinsey's analysis of 48 deeply troubled
 megaprojects found that **73 percent of cost and schedule overruns were caused
 by poor execution** — specifically, by failures of monitoring, escalation, and
-corrective action — not by flawed original designs.[^6]
+corrective action — not by flawed original designs.^6^
 
 The mechanism is predictable. Project data — cost actuals, schedule progress,
 change orders, risk events — is generated continuously in the field. But in most
@@ -94,7 +94,7 @@ established antidote. The Independent Project Analysis Group (IPA), whose
 proprietary database covers more than 20,000 capital projects, measures project
 performance against a Project Control Index (PCI). Projects with strong project
 controls consistently outperform their peers on cost, schedule, and operability
-outcomes.[^7]
+outcomes.^7^
 
 The barrier to universal adoption of rigorous project controls is not lack of
 awareness. It is capacity and consistency. A cost engineer maintaining full
@@ -156,7 +156,7 @@ cause analysis, recovery planning — where human expertise is irreplaceable.
 **Avoiding the enterprise AI trap.** Deloitte's 2025–2026 State of AI survey
 found that while nearly 90 percent of companies have deployed AI in at least one
 business function, 94 percent report not seeing significant value from their
-investments.[^8] The explanation is structural: most AI deployments target
+investments.^8^ The explanation is structural: most AI deployments target
 individual productivity (drafting emails, summarising documents) rather than the
 *process* level where value is concentrated.
 
@@ -352,12 +352,12 @@ when user prompts match the trigger phrases defined in `SKILL.md`.
 
 | Skill | Source | Capability |
 |-------|--------|------------|
-| `evm` | Purpose-built | EVM engine: 10 metrics, 5 charts, 3 EAC forecast methods |
-| `budget-estimator` | Purpose-built | Parametric CAPEX with P50/P90 Monte Carlo simulation |
-| `pdf` | Marketplace | Extract structured text from contracts and specifications |
-| `pptx` | Marketplace | Assemble progress presentation from EVM report and charts |
-| `csv-data-summarizer` | Marketplace | Statistical summary of cost registers and change order logs |
-| `meeting-insights-analyzer` | Marketplace | Extract action items and decisions from meeting notes |
+| evm | Purpose-built | EVM engine: 10 metrics, 5 charts, 3 EAC forecast methods |
+| budget-estimator | Purpose-built | Parametric CAPEX with P50/P90 Monte Carlo simulation |
+| pdf | Marketplace | Extract structured text from contracts and specifications |
+| pptx | Marketplace | Assemble progress presentation from EVM report and charts |
+| csv-data-summarizer | Marketplace | Statistical summary of cost registers and change order logs |
+| meeting-insights-analyzer | Marketplace | Extract action items and decisions from meeting notes |
 
 Skills activate automatically on matching trigger phrases, as described in
 sections 2.3 and 2.4 below.
@@ -399,7 +399,7 @@ The power of EVM lies in its predictive validity. Research across thousands of
 projects has established that the CPI at the 20 percent completion milestone is
 a reliable predictor of final outcome. Projects that are underperforming at 20
 percent completion rarely recover to budget — and when they do, it is because
-management intervened early, not because efficiency spontaneously improved.[^9]
+management intervened early, not because efficiency spontaneously improved.^9^
 
 Despite this, EVM is performed inconsistently in practice. The calculation
 requires integrating cost actuals, progress measurements, and the original budget
@@ -578,7 +578,7 @@ where the cost engineer's judgment falls.
 **Lever 3 — Reduced cost of producing controls outputs**
 
 Companies using AI-assisted project management tools report an average 15 percent
-improvement in project delivery productivity.[^10] On the specific task of monthly
+improvement in project delivery productivity.^10^ On the specific task of monthly
 reporting — which typically consumes 3–5 working days per reporting period for a
 major project's controls team — consistent findings indicate that AI assistance
 reduces this by 40–60 percent. This frees experienced project controls
@@ -615,7 +615,7 @@ infrastructure cost (licences, governance, templates) is shared.
 
 Companies that use AI-driven tools in project management deliver 61 percent of
 their projects on time, compared to 47 percent for those that do not — a
-14-percentage-point improvement.[^11] On a programme of five concurrent capital
+14-percentage-point improvement.^11^ On a programme of five concurrent capital
 projects, each averaging EUR 500 million in CAPEX, moving one project from the
 "late" to "on-time" bucket — with a typical delay cost of 5–10 percent of CAPEX
 — represents EUR 25–50 million in value creation from the portfolio uplift alone.
@@ -736,41 +736,41 @@ Installation requires copying three files and running one `pip install` command.
 
 ## References
 
-[^1]: Flyvbjerg, B. & Gardner, D. (2023). *How Big Things Get Done*. Macmillan.
+1. Flyvbjerg, B. & Gardner, D. (2023). *How Big Things Get Done*. Macmillan.
   Database of 16,000 projects; 8.5% delivered on cost and schedule; 0.5%
   delivered all promised benefits.
 
-[^2]: McKinsey & Company (2015). "Megaprojects: The good, the bad, and the
+2. McKinsey & Company (2015). "Megaprojects: The good, the bad, and the
   better." Review of 300+ projects exceeding USD 1 billion.
 
-[^3]: Flyvbjerg, B. (2017). "The Iron Law of Megaprojects." Cato Institute
+3. Flyvbjerg, B. (2017). "The Iron Law of Megaprojects." Cato Institute
   Policy Report. 91.5% of projects exceed budget, schedule, or both.
 
-[^4]: McKinsey Global Institute (2016). "Reinventing Construction." Mining and
+4. McKinsey Global Institute (2016). "Reinventing Construction." Mining and
   metals sector overrun data. Rail, bridge, and tunnel statistics from
   Flyvbjerg's database.
 
-[^5]: Hydrogen Council & McKinsey & Company (2025). *Global Hydrogen Compass*.
+5. Hydrogen Council & McKinsey & Company (2025). *Global Hydrogen Compass*.
   USD 110B committed investment across 500+ post-FID projects.
 
-[^6]: McKinsey & Company (2017). "Increasing transparency in megaproject
+6. McKinsey & Company (2017). "Increasing transparency in megaproject
   execution." Analysis of 48 troubled projects; 73% of overruns attributed
   to execution failures.
 
-[^7]: Independent Project Analysis (IPA). *Capital Project System Improvement*.
+7. Independent Project Analysis (IPA). *Capital Project System Improvement*.
   Project Control Index methodology and performance correlation.
   [ipaglobal.com](https://www.ipaglobal.com/services/capital-project-system-improvement/)
 
-[^8]: Deloitte US (2026). *State of AI in the Enterprise*. 89% of companies
+8. Deloitte US (2026). *State of AI in the Enterprise*. 89% of companies
   have deployed AI; 94% report not seeing significant value.
 
-[^9]: Christensen, D.S. (1993). "The Estimate at Completion Problem: A Review
+9. Christensen, D.S. (1993). "The Estimate at Completion Problem: A Review
   of Three Studies." *Project Management Journal*. CPI stability at 20%
   completion and its predictive validity for final outcome.
 
-[^10]: Various sources aggregated in: Celoxis (2025). "AI and Machine Learning
+10. Various sources aggregated in: Celoxis (2025). "AI and Machine Learning
   in Project Management." 15% average productivity improvement; 61% on-time
   delivery with AI tools vs. 47% without.
 
-[^11]: Ibid.
+11. Ibid.
 
