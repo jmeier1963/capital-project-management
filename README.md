@@ -1,11 +1,11 @@
-# Capital Project Management — Claude Code Scaffolding
+# Large Capital Project Management — Claude Code Scaffolding
 
 A **Claude Code skill and project scaffolding system** for large capital projects
 (LCPs) such as hydrogen pipelines, offshore platforms, refineries, and
 infrastructure programmes. Combines structured data schemas, domain heuristics,
-specialist agents, and a fully working **Earned Value Management (EVM) skill**
-that generates ANSI/EIA-748 reports and five publication-ready charts from a
-simple CSV file.
+specialist agents, a fully working **Earned Value Management (EVM) skill**, and
+a **parametric Budget Estimator skill** that produces P50/P90 CAPEX forecasts
+via Monte Carlo simulation.
 
 ---
 
@@ -18,6 +18,13 @@ simple CSV file.
 │   ├── evm_calculator.py        #   Core Python engine (713 lines)
 │   ├── requirements.txt         #   pandas, matplotlib, numpy
 │   └── examples/
+│
+├── budget-estimator/            # Budget estimator skill — P50/P90 Monte Carlo
+│   ├── SKILL.md                 #   Behavioral instructions for Claude
+│   ├── budget_estimator.py      #   Parametric CAPEX engine with Monte Carlo
+│   ├── requirements.txt         #   numpy, scipy, matplotlib, pyyaml, pandas
+│   └── examples/
+│       └── h2-pipeline-estimate.yaml   # H2-PIPE-DE-001 AACE Class 3 estimate
 │       ├── h2-pipeline-snapshot.csv      # Single-period test data
 │       └── h2-pipeline-timephased.csv    # Five-period trend test data
 │
@@ -252,6 +259,87 @@ Project TOTAL (5 contracts, EUR 1,350.5M BAC)
       Pipe delivery delay driving schedule underperformance.
       If SPI remains below 0.85 in June reporting: Project Director
       escalation memo is mandatory.
+```
+
+---
+
+## Using the Budget Estimator Skill
+
+### Automatic activation
+
+The skill activates when you mention any of the following in Claude Code:
+
+- `"estimate CAPEX"`, `"budget estimate"`, `"P50/P90"`
+- `"what will this project cost"`, `"probabilistic estimate"`, `"Monte Carlo"`
+- When you provide a YAML file with a `work_packages:` key
+
+### Run from a YAML estimate file
+
+```bash
+python budget-estimator/budget_estimator.py \
+  budget-estimator/examples/h2-pipeline-estimate.yaml \
+  --output /tmp/my-estimate/
+```
+
+### Quick parametric estimate (no YAML needed)
+
+```bash
+python budget-estimator/budget_estimator.py \
+  --type pipeline \
+  --length-km 500 \
+  --diameter DN400 \
+  --terrain rolling_rural \
+  --compression-mw 80 \
+  --aace-class 3 \
+  --output /tmp/quick-estimate/
+```
+
+### Example output — H2-PIPE-DE-001 (AACE Class 3)
+
+```
+GreenArtery — North Sea H2 Transmission Pipeline
+  AACE Class 3 Estimate
+  P10 = EUR 1,748M
+  P50 = EUR 1,833M  (planning basis)
+  P90 = EUR 1,930M  (risk-adjusted ceiling)
+  Contingency (P90-P50) = EUR 97M (5.3%)
+```
+
+### Budget Estimator Outputs
+
+| File | Description |
+|------|-------------|
+| `estimate-report.md` | Full markdown report: P10/P50/P90, work-package breakdown, AACE class, contingency |
+| `01_cost_distribution.png` | CAPEX distribution histogram from 10,000 Monte Carlo iterations |
+| `02_tornado_chart.png` | Sensitivity analysis — top cost drivers ranked by contribution to P90–P10 spread |
+| `03_wbs_breakdown.png` | P50 vs P90 range per work package |
+
+### YAML estimate file format
+
+```yaml
+project:
+  name: "My Project"
+  aace_class: 3         # 1=definitive, 3=FEED, 5=conceptual
+
+work_packages:
+  - id: WBS-1.0
+    description: "Mainline Pipeline (500 km, DN400)"
+    method: parametric  # uses pipeline-cost heuristics
+    params:
+      length_km: 500
+      diameter: DN400
+      terrain: rolling_rural  # flat_agricultural | gently_rolling | mountainous_or_rock
+      h2_service: true
+      compression_mw: 0
+      block_valves: 12
+      include_owner_costs: false   # set true if no separate owner-cost WP
+
+  - id: WBS-2.0
+    description: "Compression Stations"
+    method: direct       # direct cost entry with uncertainty range
+    base_cost_eur: 340_000_000
+    uncertainty_pct: 0.20
+    downside_pct: 0.05
 ```
 
 ---

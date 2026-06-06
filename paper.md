@@ -33,27 +33,26 @@ consistently every reporting period, that escalation thresholds are enforced
 automatically, and that domain heuristics from decades of benchmarking are
 applied without relying on institutional memory.
 
-The system has been designed and implemented. It is available as open-source
-code at [github.com/jmeier1963/capital-project-management](https://github.com/jmeier1963/capital-project-management).
-A working prototype illustrating the approach on a hypothetical 500 km hydrogen
-transmission pipeline (EUR 1.75 billion CAPEX) demonstrates the full capability.
+The system has been designed, implemented, and tested on a hypothetical 500 km
+hydrogen transmission pipeline (EUR 1.75 billion CAPEX). It is available as
+open-source code at
+[github.com/jmeier1963/large_capital_project_management](https://github.com/jmeier1963/large_capital_project_management).
 
-This paper asks the board to make three decisions:
-
-1. **Authorize a pilot** on one live capital project, with a defined success criteria review at 90 days.
-2. **Assign an owner** — a senior executive accountable for the pilot, sitting at the intersection of project controls, digital, and operations.
-3. **Establish a data governance baseline** — define which project data is permissible to process through AI systems and under what conditions.
+This paper asks the board to authorize a pilot on one live capital project,
+to assign a senior executive as accountable owner, and to commission a data
+governance policy that defines which project data is permissible to process
+through AI systems and under what conditions.
 
 ---
 
-## 1. The Persistent Performance Deficit in Large Capital Projects
+## 1. The Capital Project Performance Crisis and the AI Opportunity
 
 ### 1.1 The Scale of the Problem
 
 Flyvbjerg's landmark study — the largest empirical analysis of project
 performance ever conducted — established what he calls the "iron law of
 megaprojects": over budget, over time, over and over again.[^3] The headline
-numbers bear repeating for emphasis:
+numbers bear repeating:
 
 - **91.5%** of projects exceed their original budget or schedule, or both
 - **8.5%** deliver within original parameters
@@ -114,27 +113,44 @@ Project Director this week will go next week instead.
 
 This is the specific gap that AI-augmented project controls addresses.
 
----
-
-## 2. What Has Changed: Why AI Can Help Now
-
-### 2.1 The Structural Shift in AI Capability
+### 1.4 What Has Changed: The AI Inflection Point
 
 For most of the past decade, AI in project management meant dashboards that
 required extensive data pipeline engineering, natural language processing tools
-that extracted text from documents with limited accuracy, and predictive models
-that required months of training on proprietary datasets before producing
-actionable output.
+that extracted text with limited accuracy, and predictive models that required
+months of proprietary training data before producing actionable output. The
+technology was real but the deployment cost was prohibitive for all but the
+largest programmes.
 
-The shift that has occurred since 2023 is qualitative, not incremental. Large
-language models (LLMs) — and in particular AI agents that can reason over
-structured data, apply domain-specific rules, call tools, and generate
-structured outputs — have changed what is possible without bespoke development.
-An AI agent can today be given a CSV file of cost actuals, a set of rules
-encoded in plain language (e.g., "if CPI drops below 0.85, flag for Project
-Director escalation"), and a set of calculations to perform, and will produce a
-complete, consistent, correctly formatted report — every time, in under two
-minutes.
+The shift since 2023 is qualitative, not incremental. Large language models
+(LLMs) — in particular, AI agents that reason over structured data, apply
+domain-specific rules, call tools, and generate structured outputs — have changed
+what is achievable without bespoke development.
+
+Three capabilities now combine in a way that was not previously available:
+
+**Structured reasoning over domain rules.** An AI agent can be given a plain-
+English rules file (e.g., "if CPI drops below 0.85, generate a Project Director
+escalation memo; if SPI has been below 0.85 for two consecutive periods, issue a
+mandatory written notice") and will apply those rules with perfect consistency on
+every run. The rules are not remembered from a training corpus — they are encoded
+explicitly and executed deterministically.
+
+**Tool use and computation.** Modern AI agents can invoke Python scripts, read
+CSV files, write structured output, and generate charts as a native part of their
+workflow. The EVM module in this system runs a Python engine (ANSI/EIA-748
+compliant, 713 lines) that computes ten financial metrics per WBS package, runs
+three EAC forecast methods, produces five publication-ready charts, and writes a
+complete markdown report — all as a single AI-orchestrated pipeline.
+
+**Domain heuristics without domain re-training.** Parametric cost benchmarks,
+productivity norms, and contingency ranges can be loaded into the AI's context
+at runtime as versioned YAML files, without fine-tuning or model retraining.
+When the AI applies a benchmark, it cites the source and version. When project
+data falls outside the benchmark's valid range, it flags this explicitly. The
+heuristics library is updated as the organisation accumulates actuals — turning
+project experience into institutional knowledge that the AI accesses on the
+next run.
 
 This is not a claim that AI understands project management in the way an
 experienced cost engineer does. It is a more precise and more practically
@@ -143,35 +159,29 @@ of project controls work with perfect consistency, freeing skilled professionals
 to focus on the *judgment-intensive* portions — contractor negotiation, root
 cause analysis, recovery planning — where human expertise is irreplaceable.
 
-### 2.2 The Adoption Paradox — and How to Avoid It
-
-Deloitte's 2025–2026 State of AI in the Enterprise survey found that while
-nearly 90 percent of companies have deployed AI in at least one business
-function, 94 percent report not seeing "significant" value from their
-investments.[^8] This paradox has a structural explanation: most AI deployments
-in enterprises target knowledge work at the individual level (drafting emails,
-summarising documents) rather than the *process* level where value is
-concentrated.
+**Avoiding the enterprise AI trap.** Deloitte's 2025–2026 State of AI survey
+found that while nearly 90 percent of companies have deployed AI in at least one
+business function, 94 percent report not seeing significant value from their
+investments.[^8] The explanation is structural: most AI deployments target
+individual productivity (drafting emails, summarising documents) rather than the
+*process* level where value is concentrated.
 
 In capital project controls, value is concentrated in process consistency, not
-individual productivity. The question is not whether a cost engineer can
-produce a report faster with AI assistance. The question is whether every
-project — regardless of the experience level of its controls team, regardless
-of whether it is month four or month thirty-two — produces a complete,
-consistently structured, threshold-checked EVM report on time, every reporting
-period.
+individual productivity. The question is not whether a cost engineer can produce
+a report faster with AI assistance. The question is whether every project —
+regardless of the experience level of its controls team, regardless of whether
+it is month four or month thirty-two — produces a complete, consistently
+structured, threshold-checked EVM report on time, every reporting period.
 
-The approach described in this paper is designed specifically for that target.
-It does not add an AI layer on top of existing processes. It embeds AI into
-the process as a non-optional execution step, with encoded domain rules,
-parameterised thresholds, and mandatory output formats that cannot be
-abbreviated under pressure.
+The approach described in this paper embeds AI into the process as a
+non-optional execution step, with encoded domain rules, parameterised thresholds,
+and mandatory output formats that cannot be abbreviated under pressure.
 
 ---
 
-## 3. The System: Architecture and Capabilities
+## 2. The System: Architecture and Capabilities
 
-### 3.1 Design Principles
+### 2.1 Design Principles
 
 The system is built on four principles that distinguish it from generic AI
 implementations:
@@ -187,10 +197,9 @@ and `valid_range:` fields. When the AI applies a benchmark, it cites the source.
 When the project falls outside the valid range, it flags this explicitly.
 
 **Rules encoded, not remembered.** Escalation thresholds, required approvals,
-and judgment rules (e.g., "any change order exceeding 1% of contract value
-triggers an independent cost review") are encoded in a `CLAUDE.md` configuration
-file — the project's AI constitution. They are applied automatically on every
-analysis run, not recalled from a briefing document.
+and judgment rules are encoded in a `CLAUDE.md` configuration file — the
+project's AI constitution. They are applied automatically on every analysis run,
+not recalled from a briefing document.
 
 **Roles, not generics.** Every communication or action recommendation produced
 by the AI addresses a specific named role from the project's organisation chart.
@@ -199,60 +208,193 @@ Commercial Manager should review the change order, that the Project Director
 should receive the escalation memo, and that the cost register should be updated
 by the Cost Engineer within five business days.
 
-### 3.2 System Components
+### 2.2 System Components
 
-The system consists of four integrated layers:
+The system consists of five integrated layers.
+
+---
 
 **Layer 1 — Project Data Store**
 
 A structured directory of CSV, YAML, JSON, and Markdown files representing the
-project's living state: the project brief (scope, FID CAPEX, milestones), the
-contracts register, the WBS cost register, the resource matrix, and the risk
-register. All files have defined schemas that validate on intake. The directory
-is version-controlled, meaning every change is logged and reversible.
+project's living state. The recommended directory layout mirrors standard project
+controls practice:
+
+```
+my-project/
+├── CLAUDE.md                    ← project AI constitution
+├── project-brief.md             ← scope, FID CAPEX, key milestones
+├── 01-contracts/
+│   ├── contracts-register.csv
+│   └── change-orders/
+├── 02-schedule/
+│   └── milestones.csv           ← milestone_id, planned_date, forecast_date, critical_path
+├── 03-cost/
+│   ├── evm-timephased.csv       ← one row per WBS element per reporting period
+│   └── evm-output/              ← written by the EVM skill each period
+├── 04-resources/
+│   └── resource-matrix.csv
+└── 05-risk/
+    └── risk-register.csv
+```
+
+All files are validated against JSON schemas on intake. The directory is
+version-controlled, meaning every change is logged and reversible.
+
+**The CLAUDE.md AI Constitution.** The central configuration file that defines
+how the AI must behave on this project. A production `CLAUDE.md` for a capital
+project encodes mandatory judgment rules in plain English:
+
+- *"If CPI drops below 0.85, immediately generate a Project Director escalation
+  memo referencing the WBS package, the current CPI value, and the three-period
+  CPI trend."*
+- *"If SPI has been below 0.85 for two consecutive reporting periods, generate
+  a mandatory written escalation notice. Do not wait for a third period."*
+- *"Any change order exceeding 1% of the contract value triggers an independent
+  cost review. Notify the Commercial Manager and the PMO lead."*
+- *"At stage-gate FEED-to-EPC, the estimate must be AACE Class 3 or better.
+  Flag any estimates submitted at Class 4 or 5 as non-compliant."*
+
+It also defines stage-gate-specific standards, so the same system applies
+different rigor depending on the project phase:
+
+| Phase | Estimate Class | Contingency Range | Schedule Basis |
+|-------|---------------|-------------------|----------------|
+| Concept | Class 5 | 35–40% | ±50% |
+| Pre-FEED | Class 4 | 25–30% | ±30% |
+| FEED | Class 3 | 15–20% | ±15% |
+| Execution | Class 2 | 8–12% | ±10% |
+| Closeout | Class 1 | 3–5% | Actuals |
+
+These rules are applied on every AI run without exception. They cannot be
+abbreviated because the cost engineer is under pressure.
+
+---
 
 **Layer 2 — Domain Heuristics Library**
 
 A curated library of parametric benchmarks and productivity norms, stored as
-versioned YAML files. For a hydrogen pipeline project these include: installed
-cost per kilometre by pipe diameter and terrain type, welding productivity
-norms per shift, compression station cost per megawatt, and contingency ranges
-by estimate class (AACE Class 1–5). Each file carries its source, valid range,
-and date of last update. The AI consults this library before generating any
-cost forecast and flags deviations that exceed ±30 percent of the benchmark.
+versioned YAML files. Two files are included for hydrogen pipeline projects:
 
-**Layer 3 — Specialist Agents**
+`heuristics/pipeline-cost.yaml` — installed cost per kilometre by pipe diameter
+and terrain type (abbreviated):
 
-Three domain-specific agents that activate automatically on defined triggers:
+```yaml
+# Source: IPA Benchmarking Database + DVGW project actuals (Western Europe)
+# Valid for: onshore H2 pipelines, Germany / Western Europe, AACE Class 3–5
+# Accuracy: ±20–30% (Class 3 equivalent)
+# Version: 1.0 | Updated: 2026-01
 
-| Agent | Trigger | Primary Output |
-|-------|---------|----------------|
-| EVM Analyst | Monthly reporting cycle; any mention of cost or schedule performance | Full earned value report: five charts, RAG status, three EAC forecasts, escalation flags |
-| Schedule Analyzer | Milestone slip; SPI below threshold; request for schedule review | Schedule health report with critical path float, recovery options matrix |
-| Contract Reviewer | Change order received; claim notice; new contract for review | Structured commercial summary, flagged risk clauses, CO entitlement assessment |
-| Risk Assessor | Monthly cycle; new risk identified; risk materialisation | EMV-ranked Top 10 risk digest, escalation flags, recommended register updates |
+base_cost_eur_per_km:
+  DN300: 1_450_000
+  DN400: 1_920_000      # H2-PIPE-DE-001 reference value
+  DN500: 2_650_000
+  DN600: 3_400_000
 
-**Layer 4 — Governance Rules**
+terrain_factors:
+  flat_agricultural: 1.00
+  rolling_rural:     1.15
+  urban_corridor:    1.60
+  river_crossing_hdd: 2.50   # per crossing
 
-Encoded in `CLAUDE.md`, the project's AI constitution. This file specifies
-mandatory escalation thresholds (CPI < 0.85, SPI < 0.85 for two consecutive
-periods), required approval levels for change orders, stage-gate-specific
-estimate class requirements, and output format standards. The AI cannot
-deviate from these rules; they are applied on every run without exception.
+h2_service_premium:  0.15    # +15% for H2-grade materials (HIC-tested, dry-gas seals)
 
-### 3.3 Integration with Existing Tools
+contingency_by_class:
+  class_5: [0.30, 0.50]      # conceptual estimate
+  class_3: [0.15, 0.25]      # study estimate
+  class_2: [0.10, 0.15]      # budget-quality estimate
+  class_1: [0.05, 0.10]      # definitive estimate
+```
 
-The system reads Primavera P6 `.xer` schedule exports (via the P6XER MCP
-server), Excel and CSV cost exports, PDF contracts (via the PDF extraction
-skill), and Google Drive document repositories. It does not require replacing
-any existing tool. It adds a controlled intelligence layer on top of data that
-organisations are already generating.
+When the AI applies this benchmark to a cost estimate, it cites the source and
+version, and flags any project falling outside the valid range (e.g., a DN900
+pipeline or a project in a different region). `heuristics/productivity-norms.yaml`
+covers labour productivity for pipeline welding (joints per shift by diameter and
+welder grade), civil excavation (m³/shift by terrain), mechanical erection, and
+E&I installation, with the same provenance structure.
 
 ---
 
-## 4. The EVM Module: From Calculation to Institutional Discipline
+**Layer 3 — Specialist Agents**
 
-### 4.1 What Earned Value Management Is — and Why It Is Underused
+Four domain-specific agents are defined as markdown files in
+`scaffolding/agents/`. Each agent specifies its trigger conditions, analysis
+steps, output format requirements, and escalation rules. They are installed by
+copying to `.claude/agents/` in the project directory, where Claude Code
+discovers and invokes them automatically on matching prompts.
+
+| Agent | Trigger | Primary Output |
+|-------|---------|----------------|
+| EVM Analyst | Monthly cycle; any mention of cost or schedule performance; CSV with EVM columns | Full EV report: five charts, RAG status, three EAC forecasts, escalation flags |
+| Schedule Analyzer | Milestone slip; SPI below threshold; "schedule review" | Schedule health report, critical path float, recovery options matrix |
+| Contract Reviewer | Change order received; claim notice; new contract for review | Structured commercial summary, flagged risk clauses, CO entitlement assessment |
+| Risk Assessor | Monthly cycle; new risk identified; risk materialisation | EMV-ranked Top-10 risk digest, escalation flags, register update recommendations |
+
+The `schedule-analyzer` agent executes a defined sequence: read `milestones.csv`
+and flag any milestone with a forecast slip exceeding 14 days; calculate total
+float on the critical path from the latest schedule export; compare the current
+SPI trend against the project's historical SPI curve; generate a recovery options
+matrix with cost and schedule impact for each option. Its escalation rule is
+encoded in its definition: any slip greater than 60 days on a milestone marked
+`critical: true` triggers a mandatory Project Director memo, regardless of
+whether the SPI threshold has been breached.
+
+The `contract-reviewer` agent processes change orders against a structured
+extraction template: contract type, base value, CO value as a percentage of
+contract, entitlement basis (scope change vs. changed conditions), dispute
+resolution mechanism, and liquidated-damages exposure. It cross-references the
+CO value against the `CLAUDE.md` threshold and generates the independent cost
+review notification automatically when the threshold is exceeded.
+
+---
+
+**Layer 4 — Claude Code Skills**
+
+Claude Code's skill system packages purpose-built Python tools for automatic
+invocation. Skills are installed by placing a directory in `~/.claude/skills/`,
+containing a `SKILL.md` behavioural instruction file and the Python
+implementation. Claude Code scans this directory at startup and invokes skills
+when user prompts match the trigger phrases defined in `SKILL.md`.
+
+| Skill | Source | Function in capital project context |
+|-------|--------|--------------------------------------|
+| `evm` | Purpose-built (this repo) | Full EVM engine: 10 metrics, 5 charts, 3 EAC methods, auto-escalation |
+| `budget-estimator` | Purpose-built (this repo) | Parametric CAPEX estimate with P50/P90 Monte Carlo, AACE class designation |
+| `pdf` | Marketplace | Extract structured text from contract PDFs, engineering specifications |
+| `pptx` | Marketplace | Assemble the monthly progress presentation from EVM report markdown + chart PNGs |
+| `csv-data-summarizer` | Marketplace | Quick statistical summary of resource matrices, procurement logs, change order registers |
+| `meeting-insights-analyzer` | Marketplace | Extract action items, decisions, and owners from PMT meeting notes and minutes |
+
+Skills activate automatically. The `evm` skill triggers on phrases like "EVM",
+"earned value", "CPI/SPI", "EAC forecast", or whenever a CSV file is provided
+with columns `bac`, `bcws_cum`, `bcwp_cum`, `acwp_cum`. The `budget-estimator`
+skill triggers on "estimate CAPEX", "budget estimate", "P50/P90", or "cost
+estimate" alongside a project brief or scope description.
+
+---
+
+**Layer 5 — JSON Schemas and Validation**
+
+Three JSON Schema files enforce data quality at intake:
+
+- `schemas/project-brief.schema.json` — validates the YAML frontmatter of
+  `project-brief.md`: required fields (`project_id`, `fid_date`,
+  `approved_capex_eur`, `contingency_eur`), data types, and allowable values for
+  `status` and `phase`.
+- `schemas/contract.schema.json` — validates contract register entries: contract
+  type (lump sum / EPCM / reimbursable / time-and-materials), required date
+  fields, and mandatory completion of `ld_rate_per_day` for lump-sum contracts.
+- `schemas/risk-register.schema.json` — validates risk register entries:
+  probability (0–1 float), impact (EUR value), required mitigation owner, and
+  mandatory EMV recalculation trigger when either probability or impact changes
+  by more than 10 percent.
+
+Schema validation runs automatically when Claude Code opens a project directory.
+Any invalid data file generates an immediate quality flag before analysis begins.
+
+### 2.3 The EVM Module: From Calculation to Institutional Discipline
+
+#### What Earned Value Management Is — and Why It Is Underused
 
 Earned Value Management is the internationally recognised standard (ANSI/EIA-748)
 for integrating cost and schedule performance measurement. Its core logic is
@@ -269,47 +411,83 @@ percent completion rarely recover to budget — and when they do, it is because
 management intervened early, not because efficiency spontaneously improved.[^9]
 
 Despite this, EVM is performed inconsistently in practice. The calculation
-requires integrating cost actuals, progress measurements, and the original
-budget baseline — data that typically live in three or four separate systems
-and require manual reconciliation. Under schedule pressure, this reconciliation
-gets abbreviated. The result is that the single most powerful early warning
-indicator available to project management is produced late, inconsistently, or
-not at all.
+requires integrating cost actuals, progress measurements, and the original budget
+baseline — data that typically live in three or four separate systems and require
+manual reconciliation. Under schedule pressure, this reconciliation gets
+abbreviated. The result is that the single most powerful early warning indicator
+available to project management is produced late, inconsistently, or not at all.
 
-### 4.2 What the EVM Module Delivers
+#### What the EVM Module Delivers
 
-Given a CSV file containing WBS codes, budget at completion (BAC), planned
-value (BCWS), earned value (BCWP), and actual cost (ACWP) — data that any
-functioning cost control system produces — the EVM module generates, in under
-two minutes:
+Given a CSV file containing WBS codes, budget at completion (BAC), planned value
+(BCWS), earned value (BCWP), and actual cost (ACWP) — data that any functioning
+cost control system produces — the EVM module generates, in under two minutes:
 
 - **A complete markdown report** with executive summary, WBS-level performance
   table with RAG status, three EAC forecasts (CPI method, composite CPI×SPI
   method, and planned-rate method), variance at completion, and TCPI
-- **Five publication-ready charts**: S-curve (BCWS/BCWP/ACWP over time),
-  CPI/SPI trend with threshold bands, WBS cost variance waterfall, EAC
-  forecast comparison, and a CPI/SPI quadrant map with bubble sizes proportional
-  to budget at stake
-- **Automatic escalation flags** when CPI or SPI breach thresholds, when SPI
-  has been below 0.85 for two consecutive periods, or when TCPI exceeds 1.10
-  (the level at which recovery is generally considered unrealistic without
+- **Five publication-ready charts**: S-curve (BCWS/BCWP/ACWP over time), CPI/SPI
+  trend with threshold bands, WBS cost variance waterfall, EAC forecast
+  comparison, and a CPI/SPI quadrant map with bubble sizes proportional to budget
+  at stake
+- **Automatic escalation flags** when CPI or SPI breach thresholds, when SPI has
+  been below 0.85 for two consecutive periods, or when TCPI exceeds 1.10 (the
+  level at which recovery is generally considered unrealistic without
   re-baselining)
 - **A plain-language interpretation** identifying the worst-performing package,
-  the recommended EAC to use for board reporting, and the next three actions
-  with named responsible parties
+  the recommended EAC to use for board reporting, and the next three actions with
+  named responsible parties
 
-The recommended EAC for large capital projects is the composite CPI×SPI method,
-which assumes that schedule pressure will continue to drive cost efficiency
-downward. For the hydrogen pipeline example included with the system, this method
-produces an EAC of EUR 1.637 billion against an approved BAC of EUR 1.350
-billion for the contracted scope — a 21 percent overrun signal at month five of
-a 36-month execution programme, early enough for effective intervention.
+The RAG thresholds applied are industry-standard: CPI or SPI ≥ 0.95 = GREEN;
+0.85–0.94 = AMBER; < 0.85 = RED. The composite CPI×SPI EAC method is recommended
+for board reporting, because it accounts for schedule pressure compounding cost
+efficiency loss — the dominant failure pattern in large capital projects.
+
+For the hydrogen pipeline example included with the system, this method produces
+an EAC of EUR 1.637 billion against an approved BAC of EUR 1.350 billion for the
+contracted scope — a 21 percent overrun signal at month five of a 36-month
+execution programme, early enough for effective intervention. WBS-1.1 (Mainline
+North) is identified as the primary driver: its SPI of 0.750 (RED) reflects a
+linepipe delivery delay caused by port congestion, and if SPI remains below 0.85
+in the June reporting period, the two-consecutive-period escalation rule fires
+automatically, generating a mandatory written notice to the Project Director.
+
+### 2.4 Integration with Existing Tools
+
+The system reads data that capital project organisations are already producing;
+it does not require replacing any existing tool.
+
+**Primavera P6.** Schedule data is ingested via `.xer` export files using the
+P6XER MCP (Model Context Protocol) server. This allows Claude Code to read P6
+project schedules directly, extract critical path float, identify milestone
+forecast dates, and feed schedule data into the schedule-analyzer agent —
+without requiring a P6 licence or database connection in the AI environment.
+
+**Excel and CSV cost systems.** Any cost control system that can export EVM data
+in tabular form (BCWS, BCWP, ACWP by WBS code) is compatible. The EVM skill
+accepts both snapshot and time-phased formats and validates column names on
+intake.
+
+**Document repositories.** Contract PDFs, engineering specifications, and tender
+documents are processed via the `pdf` skill. The contract-reviewer agent combines
+PDF extraction with structured templates to produce commercial summaries from
+documents that would otherwise require hours of manual review.
+
+**Reporting platforms.** The `pptx` skill converts the monthly EVM markdown
+report and the five generated chart PNGs into a presentation-ready deck,
+formatted to the organisation's template. This output feeds directly into the
+monthly board reporting pack without manual transcription.
+
+**Atlassian and collaboration tools.** The Atlassian MCP server enables action
+items generated by the AI (e.g., from the risk-assessor or schedule-analyzer
+agents) to be logged directly as Jira tickets with assigned owners and due dates,
+completing the loop from AI analysis to trackable task.
 
 ---
 
-## 5. Business Case
+## 3. Investment Case, Risks, and Governance
 
-### 5.1 The Value Drivers
+### 3.1 The Value Drivers
 
 The business case for AI-augmented project controls operates on three distinct
 value levers:
@@ -349,7 +527,7 @@ reduces this by 40–60 percent. This frees experienced project controls
 professionals to perform root cause analysis, contractor engagement, and recovery
 planning rather than data assembly and chart production.
 
-### 5.2 Conservative Financial Model
+### 3.2 Conservative Financial Model
 
 The following model is intentionally conservative and uses a single EUR 1 billion
 project as the unit of analysis:
@@ -375,7 +553,7 @@ driven almost entirely by the value of a single avoided late-stage intervention.
 The ratio improves further on a portfolio of projects, where the fixed
 infrastructure cost (licences, governance, templates) is shared.
 
-### 5.3 Contextual Benchmark
+### 3.3 Contextual Benchmark
 
 Companies that use AI-driven tools in project management deliver 61 percent of
 their projects on time, compared to 47 percent for those that do not — a
@@ -384,69 +562,12 @@ projects, each averaging EUR 500 million in CAPEX, moving one project from the
 "late" to "on-time" bucket — with a typical delay cost of 5–10 percent of CAPEX
 — represents EUR 25–50 million in value creation from the portfolio uplift alone.
 
----
+The open-source code base eliminates implementation risk as a financial objection:
+the system can be inspected in detail before deployment, extended without vendor
+dependency, and discontinued without sunk cost if the pilot does not demonstrate
+value.
 
-## 6. Implementation Roadmap
-
-### Phase 1 — Foundation (Months 1–3)
-
-**Objective:** Install the system on one live project; establish data governance
-baseline; train the project controls team.
-
-Activities:
-- Select pilot project: ideally a project at the 10–25 percent completion stage,
-  with an active cost control team and at least three months of actuals history
-- Appoint an AI Project Controls Lead (existing staff member, not a new hire)
-- Establish data governance policy: define permissible data types, storage
-  locations, and access controls for AI-processed project data
-- Install Claude Code; deploy the EVM skill and project scaffolding; load three
-  months of historical cost data
-- Run the first EVM analysis; compare output to existing controls report;
-  identify and close any data quality gaps
-- Conduct a one-day orientation for the project controls team and the Project
-  Manager
-
-**Success gate:** First AI-generated EVM report accepted by the Project
-Manager as the definitive monthly controls output.
-
-### Phase 2 — Expansion (Months 4–9)
-
-**Objective:** Extend to three projects; activate schedule and risk agents;
-integrate with existing reporting cadence.
-
-Activities:
-- Replicate the deployment on two additional projects at different lifecycle
-  stages (to stress-test the system across phases)
-- Activate the Schedule Analyzer and Risk Assessor agents
-- Connect to Primavera P6 exports (via P6XER MCP server) to automate
-  schedule data ingestion
-- Integrate EVM report output into the monthly board reporting pack
-- Establish a quarterly heuristics review: update cost benchmarks and
-  productivity norms based on project actuals
-
-**Success gate:** At least one escalation flag correctly identified and acted
-upon ahead of the monthly Management Board review.
-
-### Phase 3 — Institutionalisation (Months 10–18)
-
-**Objective:** Deploy across the full capital project portfolio; establish
-continuous improvement loop; build internal capability.
-
-Activities:
-- Standardise the system as the mandatory project controls platform for all
-  projects above a defined CAPEX threshold (recommended: EUR 50 million)
-- Develop project-type-specific heuristics libraries (pipeline, compression,
-  offshore, civil infrastructure)
-- Establish a Centre of Excellence for AI-augmented project controls
-  (2–3 FTE from existing staff, not a new department)
-- Publish a lessons-learned library: each project closeout contributes
-  validated actuals back to the heuristics library, improving future estimates
-
----
-
-## 7. Risk Assessment and Governance
-
-### 7.1 AI-Specific Risks
+### 3.4 AI-Specific Risks
 
 **Risk: AI produces confident but incorrect analysis**  
 *Likelihood: Medium. Consequence: Medium.*  
@@ -459,44 +580,43 @@ The system generates recommendations; it does not make decisions.
 *Likelihood: Low with controls. Consequence: High.*  
 Claude Code can be deployed on-premises or in a private cloud environment using
 Anthropic's enterprise API. No project data need leave the organisation's
-controlled infrastructure. The data governance policy established in Phase 1
-defines exactly which data categories are permissible.
+controlled infrastructure. The data governance policy establishes which data
+categories are permissible and in what environment.
 
 **Risk: Over-reliance reduces human expertise over time**  
 *Likelihood: Low with design. Consequence: Medium.*  
 This risk is real and documented in analogous automation contexts. The
-mitigation is design: the system explicitly requires human interpretation
-of every report, ensures that escalation recommendations are reviewed not
-auto-executed, and generates plain-language explanations that build rather
-than bypass analytical understanding. The system is designed to augment the
-cost engineer's analytical output, not to replace the cost engineer.
+mitigation is design: the system explicitly requires human interpretation of
+every report, ensures that escalation recommendations are reviewed not
+auto-executed, and generates plain-language explanations that build rather than
+bypass analytical understanding.
 
-### 7.2 Organisational Risks
+### 3.5 Organisational Risks
 
 **Risk: Resistance from project controls professionals**  
 *Likelihood: High without change management. Consequence: Medium.*  
-The most effective mitigation is framing. This system removes the least
-engaging portions of a cost engineer's work — data assembly, chart production,
-threshold checking — and returns time for the high-judgment work that
-experienced professionals value. Early engagement of senior project controls
-staff in the pilot design, and visible credit for the improved reporting
-outputs, is the primary change management lever.
+The most effective mitigation is framing. This system removes the least engaging
+portions of a cost engineer's work — data assembly, chart production, threshold
+checking — and returns time for the high-judgment work that experienced
+professionals value. Early engagement of senior project controls staff in the
+pilot design, and visible credit for the improved reporting outputs, is the
+primary change management lever.
 
 **Risk: Data quality too poor for meaningful analysis**  
 *Likelihood: Medium. Consequence: Medium.*  
 The system will surface data quality problems that were previously obscured by
-manual report production. This is a feature, not a bug. The Phase 1 data quality
-review is specifically designed to establish a clean baseline before the system
-goes live on the pilot project.
+manual report production. This is a feature, not a bug. A data quality review
+before the system goes live on the pilot project establishes a clean baseline
+and closes the gaps that would otherwise persist undetected.
 
 **Risk: Pilot succeeds but rollout stalls**  
 *Likelihood: Medium without board sponsorship. Consequence: High.*  
-The pattern of successful pilot — stalled rollout — is the dominant failure
-mode for enterprise technology adoption. The mitigation is board-level ownership
-of the Phase 3 mandate and a defined CAPEX threshold above which the system is
+The pattern of successful pilot — stalled rollout — is the dominant failure mode
+for enterprise technology adoption. The mitigation is board-level ownership of
+the rollout mandate and a defined CAPEX threshold above which the system is
 mandatory, not optional.
 
-### 7.3 What This System Does Not Do
+### 3.6 What This System Does Not Do
 
 It is equally important to state explicitly what this system does not replace:
 
@@ -515,72 +635,6 @@ Projects succeed because of skilled, experienced, well-led teams. This system
 makes it harder for those teams to miss early warning signals, easier to produce
 consistent reporting, and more likely that the right information reaches the
 right decision-maker at the right time.
-
----
-
-## 8. Recommendation and Board Decision Points
-
-### 8.1 The Strategic Context
-
-The hydrogen and energy transition investment wave is already underway. With
-USD 110 billion committed globally and project execution — not FID — now the
-bottleneck, the competitive advantage will accrue to organisations that execute
-consistently rather than those that plan ambitiously. Improving project controls
-quality from the industry median to the top quartile is worth, in expectation,
-5–10 percent of total CAPEX across a portfolio. At scale, that is a strategic
-differentiator.
-
-AI-augmented project controls is not a speculative technology bet. The EVM
-module described in this paper is working code, tested against real data, with
-verifiable outputs. The open-source release means the implementation risk is
-low: the system can be inspected in detail, extended without vendor dependency,
-and abandoned without sunk cost if the pilot does not demonstrate value.
-
-The question for the board is not whether this technology works. It is whether
-the organisation is willing to commit the governance attention needed to
-deploy it at scale and embed it into the project controls process as a
-non-negotiable standard.
-
-### 8.2 Three Decisions Required
-
-**Decision 1 — Authorize the pilot**
-
-Approve a 90-day pilot on one active capital project above EUR 100 million.
-Define three measurable success criteria in advance (suggested: first AI EVM
-report accepted as definitive by PM within 30 days; at least one escalation
-flag correctly generated; reporting time reduced by at least 30 percent).
-
-**Decision 2 — Assign executive ownership**
-
-Name a board member or direct report as executive sponsor. This is the single
-most important determinant of whether the pilot converts to rollout. The sponsor
-needs authority over the project controls function, visibility into the digital
-infrastructure, and a mandate to enforce the Phase 3 rollout if the pilot
-succeeds.
-
-**Decision 3 — Commission a data governance policy**
-
-Direct the Chief Information Officer or General Counsel (or equivalent) to
-produce a data governance policy covering AI-processed project data within
-60 days. This policy should address data classification, permissible AI
-processing environments, and the human-review requirements for AI-generated
-outputs used in board reporting.
-
-### 8.3 If the Pilot Succeeds
-
-The Phase 3 mandate — system deployment on all capital projects above a defined
-CAPEX threshold — should be treated as a project controls standard, equivalent
-in status to the requirement to use Primavera P6 for scheduling or to conduct
-HAZOP for process safety. Optional adoption of a better standard invariably
-produces uneven quality. Mandatory adoption produces the institutional
-discipline that translates individual project improvements into portfolio
-performance.
-
-The open-source code base is the starting point, not the end state. The
-organisation's own project actuals, accumulated over three to five years of
-deployment, will produce a proprietary heuristics library that reflects its
-specific asset types, geographies, and contractor base — a genuine competitive
-asset that cannot be replicated by organisations that did not start building it.
 
 ---
 
@@ -609,12 +663,12 @@ The working system — EVM skill, scaffolding templates, domain heuristics,
 JSON schemas, specialist agent definitions, and a complete example project —
 is available at:
 
-**[https://github.com/jmeier1963/capital-project-management](https://github.com/jmeier1963/capital-project-management)**
+**[https://github.com/jmeier1963/large_capital_project_management](https://github.com/jmeier1963/large_capital_project_management)**
 
 The repository includes:
 - `evm/evm_calculator.py` — the full Python engine (713 lines, no external dependencies beyond pandas and matplotlib)
 - `scaffolding/` — project configuration templates for immediate deployment
-- `examples/H2-PIPE-DE-001/` — a complete worked example for a 500 km hydrogen pipeline, including five months of EVM data and the resulting analysis outputs
+- `examples/H2-PIPE-DE-001/` — a complete worked example for a 500 km hydrogen pipeline, including five months of EVM data and the resulting analysis outputs with illustrated charts
 - `README.md` — step-by-step installation and usage instructions
 
 Installation requires copying three files and running one `pip install` command.

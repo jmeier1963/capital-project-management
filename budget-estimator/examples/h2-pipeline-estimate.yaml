@@ -1,0 +1,56 @@
+# Budget Estimate — GreenArtery H2 Transmission Pipeline (H2-PIPE-DE-001)
+# AACE Class 3 estimate (FEED-stage, accuracy -10%/+20%)
+# Reference: IPA/DVGW benchmarks, Western Europe construction market
+
+project:
+  name: "GreenArtery — North Sea H2 Transmission Pipeline"
+  aace_class: 3
+
+work_packages:
+
+  - id: WBS-1.1
+    description: "Mainline Construction — North (km 0–250, DN400)"
+    method: parametric
+    params:
+      length_km: 250
+      diameter: DN400
+      terrain: rolling_rural
+      h2_service: true
+      compression_mw: 0      # compression handled in WBS-2.0
+      block_valves: 6        # every ~40 km
+
+  - id: WBS-1.2
+    description: "Mainline Construction — South (km 250–500, DN400)"
+    method: parametric
+    params:
+      length_km: 250
+      diameter: DN400
+      terrain: flat_agricultural
+      h2_service: true
+      compression_mw: 0
+      block_valves: 6
+
+  - id: WBS-2.0
+    description: "Compression Stations (CS1–CS4, 4 × 20 MW)"
+    method: parametric
+    params:
+      length_km: 0
+      diameter: DN400
+      terrain: flat_agricultural
+      h2_service: true
+      compression_mw: 80     # 4 stations × 20 MW each
+      block_valves: 0
+
+  - id: WBS-3.1
+    description: "Owner's Engineer — Technical Advisory (SVC-001)"
+    method: direct
+    base_cost_eur: 28_000_000
+    uncertainty_pct: 0.25    # T&M scope, higher uncertainty
+    downside_pct: 0.05
+
+  - id: WBS-3.2
+    description: "Independent Cost and Schedule Assurance (SVC-002)"
+    method: direct
+    base_cost_eur: 4_500_000
+    uncertainty_pct: 0.15
+    downside_pct: 0.05
