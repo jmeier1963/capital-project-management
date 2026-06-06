@@ -15,6 +15,9 @@ evm-output/
 # macOS
 .DS_Store
 
+# Claude Code session state (machine-specific permission caches)
+.claude/
+
 # IDE
 .vscode/
 .idea/
