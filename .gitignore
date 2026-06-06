@@ -6,9 +6,11 @@ __pycache__/
 venv/
 *.egg-info/
 
-# EVM output directories
+# EVM output directories (ignore in live projects, track in examples)
 evm-output/
 **/evm-output/
+!examples/**/evm-output/
+!examples/**/evm-output/**
 
 # macOS
 .DS_Store
