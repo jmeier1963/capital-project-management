@@ -1,7 +1,5 @@
 # AI-Augmented Project Controls for Large Capital Projects
 
-**Date:** June 2026
-
 ---
 
 ## Executive Summary
