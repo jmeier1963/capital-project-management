@@ -3,9 +3,11 @@
 A **Claude Code skill and project scaffolding system** for large capital projects
 (LCPs) such as hydrogen pipelines, offshore platforms, refineries, and
 infrastructure programmes. Combines structured data schemas, domain heuristics,
-specialist agents, a fully working **Earned Value Management (EVM) skill**, and
-a **parametric Budget Estimator skill** that produces P50/P90 CAPEX forecasts
-via Monte Carlo simulation.
+specialist agents, a fully working **Earned Value Management (EVM) skill**, a
+**parametric Budget Estimator skill** that produces P50/P90 CAPEX forecasts via
+Monte Carlo simulation, and a **Systems Thinking audit skill** that stress-tests
+project definitions against fifteen research-derived heuristics before FID or
+stage-gate review.
 
 ---
 
@@ -46,6 +48,20 @@ via Monte Carlo simulation.
 │   │   └── risk-register.schema.json
 │   └── templates/
 │       └── project-brief.md     #   Blank project brief template
+│
+├── systems-thinking/            # Systems thinking audit skill
+│   ├── SKILL.md                 #   Audit workflow + output template
+│   ├── references/
+│   │   └── sys-rules.md         #   Full criteria for all 15 SYS rules
+│   ├── evals/
+│   │   └── evals.json           #   3 test scenarios with assertions
+│   └── systems-thinking.skill   #   Packaged .skill file for direct installation
+│
+├── concept-paper/               # Academic-practitioner papers
+│   ├── large_capital_project_management_execution_skill.md/.pdf
+│   ├── large_capital_project_management_systems-thinking_skill.md/.pdf
+│   └── references/
+│       └── systems-thinking-research-report-en.md
 │
 └── examples/
     └── H2-PIPE-DE-001/          # GreenArtery — 500 km H2 pipeline, Germany
@@ -368,6 +384,123 @@ work_packages:
     uncertainty_pct: 0.20
     downside_pct: 0.05
 ```
+
+---
+
+## Using the Systems-Thinking Skill
+
+The systems-thinking skill audits a project definition, status report, or FID
+pack against **fifteen heuristics** derived from megaproject failure research
+(Crossrail, Olkiluoto 3, NHS NPfIT, Longannet CCS, Vogtle, Big Dig, and eleven
+further cases). It produces a board-ready report covering every heuristic, a
+maturity score on a 1–5 scale, and a ranked gap list expressed in a standardised
+omission vocabulary — making outputs directly comparable across projects.
+
+Evaluation across three test scenarios showed a **100% assertion pass rate with
+the skill versus 41% without** (+59 percentage points). The skill adds consistent
+structure and vocabulary, not domain knowledge: unaided Claude correctly identifies
+material risks, but each run invents a different framework, making cross-project
+comparison impossible.
+
+### Installing the Systems-Thinking Skill
+
+```bash
+# Option A — copy the skill directory
+cp -r systems-thinking/ ~/.claude/skills/systems-thinking/
+
+# Option B — install the packaged .skill file
+# (requires skill-creator: python3 -m scripts.install_skill systems-thinking/systems-thinking.skill)
+```
+
+### Automatic activation
+
+The skill activates when you mention any of the following in Claude Code:
+
+- `"systems thinking audit"`, `"SYS audit"`, `"megaproject risk review"`
+- `"check this project for blind spots"`, `"check for systemic risks"`
+- `"what could go wrong with this project?"`
+- Sharing a project document before a board approval, FID, or stage-gate review
+- Any context where a project director or supervisory board member needs to
+  stress-test a project definition
+
+### What input to provide
+
+The skill works from any project documentation available — project brief, business
+case, FID pack, programme update, or stage-gate submission. Where specific
+information is absent, the relevant rule is rated ABSENT and the corresponding
+omission flag is raised. Absence of evidence is itself a finding.
+
+### Output structure
+
+| Section | Content |
+|---------|---------|
+| Project Overview | Type, phase, decision gate, audience |
+| Overall Maturity Score | X/5 with one-sentence characterisation |
+| SYS Rule Assessment | All 15 rules rated PRESENT / PARTIAL / ABSENT with findings |
+| Critical Gaps (ranked) | Top 3–5 gaps ordered by impact and reversibility |
+| Recommended Next Actions | Gap → tool → owner → output → timeframe |
+| Omission Flags | Exact vocabulary flags for automated portfolio screening |
+| Board Guidance Note | Plain-language summary for non-technical board members |
+
+### Maturity scale
+
+| Score | Meaning |
+|-------|---------|
+| 1 | Asset-centric only — full chain, regulation, and integration not addressed |
+| 2 | Partial chain with major gaps — typical early-stage definition |
+| 3 | Structured approach, incomplete evidence — framework present but thin |
+| 4 | Mature definition with minor gaps — most rules evidenced |
+| 5 | Fully integrated — chain, interfaces, regulation, operations, and exit complete |
+
+Most pre-FID project definitions score 2–3.
+
+### The fifteen SYS rules
+
+| Rule | Addresses |
+|------|-----------|
+| SYS-01 | Full value chain — upstream, asset, downstream, operations, exit |
+| SYS-02 | Second and third-order effects |
+| SYS-03 | Regulatory map (permits, levies, liability, subsidies) before FID |
+| SYS-04 | Design-maturity threshold before construction commitment |
+| SYS-05 | Interface ownership and maturity evidence |
+| SYS-06 | Risk-adjusted estimate (P50/P80) alongside point estimate |
+| SYS-07 | Outside view / reference class forecasting before sponsor view |
+| SYS-08 | Integration phase planned as its own megaproject |
+| SYS-09 | Supply-chain and workforce readiness |
+| SYS-10 | Stakeholders as system components (social licence) |
+| SYS-11 | Business case stress-tested under policy, price, and demand scenarios |
+| SYS-12 | Kill criteria explicitly defined |
+| SYS-13 | Operations and maintenance in scope of project definition |
+| SYS-14 | FOAK treated as a learning programme, not a repeat delivery |
+| SYS-15 | Cluster and platform questions escalated to portfolio level |
+
+Full rule criteria (PRESENT / PARTIAL / ABSENT) are in
+`systems-thinking/references/sys-rules.md`.
+
+### Follow-on tools
+
+Three Claude Code marketplace skills are recommended as follow-ons for the most
+common gap types:
+
+| Gap type | Skill | Example use |
+|----------|-------|-------------|
+| SYS-11 fragile business case | `what-if-oracle` | Carbon price ±50%, demand −20%, rates +200bp |
+| SYS-03 regulatory gaps | `perplexity-search` | Finnish YVA permit, CCS transport classification |
+| SYS-07 no outside view | `literature-review` | IPA benchmarks, GAO cost guide, NAO optimism-bias data |
+
+### Research basis
+
+The 15 SYS rules are grounded in analysis of fifteen major projects with
+authoritative public post-mortems. The five recurring systemic blindspots are:
+
+1. **Legal-regulatory non-integration** (Longannet CCS, Pascua-Lama)
+2. **Build-before-design-freeze** (Olkiluoto 3, Flamanville 3, Vogtle, Sydney Opera House)
+3. **Late integration economics** (Crossrail, NHS NPfIT)
+4. **Physical-social coupling** (Hallandsås Tunnel, Pascua-Lama)
+5. **Governance fragmentation** (Scottish Parliament, Big Dig, Crossrail)
+
+Full analysis in `concept-paper/large_capital_project_management_systems-thinking_skill.md`
+and `concept-paper/references/systems-thinking-research-report-en.md`.
 
 ---
 
