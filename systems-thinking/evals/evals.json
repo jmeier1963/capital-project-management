@@ -1,0 +1,136 @@
+{
+  "skill_name": "systems-thinking",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "We are a project director preparing for the FID board meeting next month. Our project is a 500 MW offshore wind farm with an integrated hydrogen electrolysis facility on the Norwegian continental shelf. The project definition we have says: scope is the wind turbines, the offshore platform, the subsea cables to shore, and an onshore electrolysis plant producing green hydrogen. Budget is €2.4bn (P50), schedule is 6 years to first power. The main risks we've identified are weather windows for marine installation, turbine supply lead times, and grid connection timing. We have permits for the wind farm footprint but the hydrogen export pipeline to the continent is 'subject to commercial agreement with TSOs'. The business case assumes a hydrogen price of €6/kg. Can you run a systems-thinking audit on this project definition?",
+      "expected_output": "A full Systems-Thinking Audit report with maturity score (likely 2-3/5), per-rule assessment table for all 15 SYS rules, critical gaps identified (at minimum: regulatory map incomplete for hydrogen export, full value chain missing TSO/pipeline/end-customer, business case not stress-tested on H2 price, integration phase not modelled, outside view missing). Should flag omissions using the vocabulary from the skill. Should suggest what-if-oracle for SYS-11 and perplexity-search for SYS-03.",
+      "assertions": [
+        {
+          "name": "contains_maturity_score",
+          "description": "Output contains an explicit numeric maturity score between 1 and 5",
+          "check": "text contains '/5' AND one of '1/5' '2/5' '3/5' '4/5' '5/5'"
+        },
+        {
+          "name": "covers_all_15_rules",
+          "description": "Output contains all 15 SYS rule IDs (SYS-01 through SYS-15)",
+          "check": "text contains 'SYS-01' AND 'SYS-05' AND 'SYS-10' AND 'SYS-15'"
+        },
+        {
+          "name": "uses_rating_vocabulary",
+          "description": "Output uses PRESENT/PARTIAL/ABSENT ratings from the skill",
+          "check": "text contains 'ABSENT' OR 'PARTIAL'"
+        },
+        {
+          "name": "flags_hydrogen_pipeline_gap",
+          "description": "Output identifies the TSO/hydrogen pipeline/export as a systemic gap",
+          "check": "text contains 'TSO' OR ('hydrogen' AND 'pipeline') OR ('hydrogen' AND 'export')"
+        },
+        {
+          "name": "flags_regulatory_gap",
+          "description": "Output flags regulatory due diligence as missing or partial",
+          "check": "text contains 'Regulatory due diligence missing' OR ('SYS-03' AND 'ABSENT') OR ('SYS-03' AND 'PARTIAL')"
+        },
+        {
+          "name": "uses_omission_vocabulary",
+          "description": "Output uses at least one exact omission flag from the vocabulary",
+          "check": "text contains 'Full value chain not modelled' OR 'Regulatory due diligence missing' OR 'Outside view missing' OR 'Business case not stress-tested' OR 'Kill criteria undefined'"
+        },
+        {
+          "name": "identifies_critical_gaps",
+          "description": "Output has a ranked critical gaps section with at least 3 gaps",
+          "check": "text contains 'Critical Gap' OR ('Gap 1' AND 'Gap 2' AND 'Gap 3')"
+        },
+        {
+          "name": "recommends_tool_stack",
+          "description": "Output recommends specific tools from the minimal stack",
+          "check": "text contains 'Monte Carlo' OR 'Reference Class' OR 'Regulatory Map' OR 'Value-Chain Map' OR 'Interface Register'"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I'm a supervisory board member preparing for our quarterly project review. Our company is running a €340m digital transformation of our hospital group's patient data infrastructure across 8 hospitals in Germany. Status update from the project team: 'Phase 1 complete — all 8 hospitals have the new EHR system installed. Phase 2 (integration with billing, radiology, lab, and pharmacy systems) is 60% complete and on schedule for Q3 delivery. Budget: €290m spent to date, €50m remaining.' I'm concerned this looks too optimistic. Please do a systems-thinking audit on this update.",
+      "expected_output": "Audit should flag: (1) Integration proof absent — 'installed' is not 'integrated and working'; (2) SYS-08 blindspot of late integration economics; (3) SYS-10 — clinical staff autonomy and workflow not addressed; (4) Kill criteria undefined; (5) 2nd order effects on clinical workflows not assessed. Should produce a maturity score around 2/5 and a skeptical, board-appropriate tone.",
+      "assertions": [
+        {
+          "name": "contains_maturity_score",
+          "description": "Output contains an explicit numeric maturity score between 1 and 5",
+          "check": "text contains '/5' AND one of '1/5' '2/5' '3/5' '4/5' '5/5'"
+        },
+        {
+          "name": "covers_all_15_rules",
+          "description": "Output covers all 15 SYS rule IDs",
+          "check": "text contains 'SYS-01' AND 'SYS-08' AND 'SYS-12' AND 'SYS-15'"
+        },
+        {
+          "name": "flags_integration_gap",
+          "description": "Output identifies integration as the core systemic risk",
+          "check": "text contains 'Integration proof absent' OR ('SYS-08' AND ('ABSENT' OR 'PARTIAL'))"
+        },
+        {
+          "name": "questions_installed_vs_integrated",
+          "description": "Output distinguishes between installed and integrated/working",
+          "check": "text contains 'install' AND ('integrat' OR 'clinical workflow' OR 'workflow')"
+        },
+        {
+          "name": "flags_kill_criteria",
+          "description": "Output flags kill criteria as undefined",
+          "check": "text contains 'Kill criteria undefined' OR ('SYS-12' AND 'ABSENT')"
+        },
+        {
+          "name": "appropriate_board_tone",
+          "description": "Output is addressed at a supervisory board level (no jargon dump, direct risk language)",
+          "check": "text contains 'board' OR 'supervisory' OR 'governance' OR 'oversight'"
+        },
+        {
+          "name": "uses_omission_vocabulary",
+          "description": "Output uses at least one exact omission flag",
+          "check": "text contains 'Integration proof absent' OR 'Kill criteria undefined' OR 'Outside view missing'"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "As a PMO director I need to prepare a stage-gate challenge for a proposed lithium refinery project in northern Finland. Here's what I know: the project is to build Europe's first large-scale lithium hydroxide refinery (first-of-a-kind), funded by a consortium of EV battery manufacturers. Total capex €1.1bn. Feedstock: spodumene concentrate imported from Australia. Target production: 50,000 tpa LiOH. The sponsor's business case shows an IRR of 18% at current lithium prices. There's one refinery of this scale in Europe currently under construction (FOAK). We have a pre-development agreement with the Finnish municipality but no environmental or operating permits yet. Please do a systems-thinking audit and identify which systemic risks are most urgent before the next stage gate.",
+      "expected_output": "Audit identifies: FOAK risk (SYS-14) as critical — IRR not FOAK-adjusted; SYS-03 — Finnish environmental/operating permits missing; SYS-01 — spodumene feedstock chain from Australia; SYS-09 — supply chain readiness for FOAK refinery; SYS-07 — outside view using the one comparable FOAK project; SYS-11 — lithium price volatility. Maturity score around 2/5.",
+      "assertions": [
+        {
+          "name": "contains_maturity_score",
+          "description": "Output contains an explicit numeric maturity score between 1 and 5",
+          "check": "text contains '/5' AND one of '1/5' '2/5' '3/5' '4/5' '5/5'"
+        },
+        {
+          "name": "covers_all_15_rules",
+          "description": "Output covers all 15 SYS rule IDs",
+          "check": "text contains 'SYS-01' AND 'SYS-07' AND 'SYS-14' AND 'SYS-15'"
+        },
+        {
+          "name": "flags_foak_risk",
+          "description": "Output flags FOAK treatment as a critical gap (SYS-14)",
+          "check": "text contains 'FOAK' AND ('SYS-14' OR 'learning programme' OR 'learning program')"
+        },
+        {
+          "name": "flags_permit_gap",
+          "description": "Output flags the missing Finnish environmental/operating permits",
+          "check": "text contains ('permit' OR 'Regulatory') AND ('Finland' OR 'Finnish' OR 'environmental')"
+        },
+        {
+          "name": "flags_business_case_stress",
+          "description": "Output flags that the 18% IRR is not stress-tested or FOAK-adjusted",
+          "check": "text contains ('IRR' OR 'business case') AND ('stress' OR 'lithium price' OR 'volatile' OR 'FOAK')"
+        },
+        {
+          "name": "flags_spodumene_supply_chain",
+          "description": "Output identifies feedstock supply chain from Australia as systemic risk",
+          "check": "text contains ('spodumene' OR 'feedstock' OR 'Australia') AND ('supply' OR 'SYS-09' OR 'SYS-01')"
+        },
+        {
+          "name": "uses_omission_vocabulary",
+          "description": "Output uses at least one exact omission flag",
+          "check": "text contains 'Regulatory due diligence missing' OR 'FOAK not treated as learning programme' OR 'Business case not stress-tested' OR 'Supply-chain readiness untested'"
+        }
+      ]
+    }
+  ]
+}
