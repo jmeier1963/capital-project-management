@@ -9,6 +9,11 @@ Monte Carlo simulation, and a **Systems Thinking audit skill** that stress-tests
 project definitions against fifteen research-derived heuristics before FID or
 stage-gate review.
 
+The full rationale, architecture, evaluation results, and investment case are
+documented in the integrated concept paper:
+[`concept-paper/large_capital_project_management.md`](concept-paper/large_capital_project_management.md)
+([PDF](concept-paper/large_capital_project_management.pdf)).
+
 ---
 
 ## Contents
@@ -57,10 +62,12 @@ stage-gate review.
 │   │   └── evals.json           #   3 test scenarios with assertions
 │   └── systems-thinking.skill   #   Packaged .skill file for direct installation
 │
-├── concept-paper/               # Academic-practitioner papers
-│   ├── large_capital_project_management_execution_skill.md/.pdf
-│   ├── large_capital_project_management_systems-thinking_skill.md/.pdf
+├── concept-paper/               # Academic-practitioner paper
+│   ├── large_capital_project_management.md/.pdf   # Integrated concept paper
+│   ├── pandoc-pdf-header.tex    #   LaTeX preamble for the PDF build
 │   └── references/
+│       ├── large_capital_project_management_execution_skill.md/.pdf
+│       ├── large_capital_project_management_systems-thinking_skill.md/.pdf
 │       └── systems-thinking-research-report-en.md
 │
 └── examples/
@@ -499,7 +506,7 @@ authoritative public post-mortems. The five recurring systemic blindspots are:
 4. **Physical-social coupling** (Hallandsås Tunnel, Pascua-Lama)
 5. **Governance fragmentation** (Scottish Parliament, Big Dig, Crossrail)
 
-Full analysis in `concept-paper/large_capital_project_management_systems-thinking_skill.md`
+Full analysis in `concept-paper/large_capital_project_management.md` (Section 3)
 and `concept-paper/references/systems-thinking-research-report-en.md`.
 
 ---
