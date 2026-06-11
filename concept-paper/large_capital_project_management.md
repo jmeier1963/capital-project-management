@@ -313,11 +313,11 @@ lifecycle as follows:
 
 | Lifecycle phase | Failure mechanism addressed | Skill / component | Primary output |
 | --- | --- | --- | --- |
-| Concept / Pre-FEED / FEED | Systemic definition gaps | `systems-thinking` | 15-rule audit, maturity score, ranked gap list |
-| Pre-FID estimating | False certainty in point budgets | `budget-estimator` | P50/P90 CAPEX with tornado sensitivity |
-| FID gate | Optimism bias, missing kill criteria | `systems-thinking` (re-audit) + follow-on tools | Gate-ready evidence pack |
-| Execution | Slow, inconsistent controls data | `evm` + specialist agents | Monthly EV report, escalation flags, recovery options |
-| All phases | Discretionary judgment at the margin | Scaffolding (`CLAUDE.md`, heuristics, schemas) | Encoded rules applied on every run |
+| Concept / Pre-FEED / FEED | Systemic definition gaps | `systems-thinking` | 15-rule audit, maturity score |
+| Pre-FID estimating | False certainty in point budgets | `budget-estimator` | P50/P90 CAPEX, tornado chart |
+| FID gate | Optimism bias, missing kill criteria | `systems-thinking` + tools | Gate evidence pack |
+| Execution | Slow, inconsistent controls | `evm` + agents | Monthly EV report, escalations |
+| All phases | Discretionary judgment | Scaffolding | Encoded rules every run |
 
 The skills are deliberately independent — each can be adopted alone — but they
 compound. A project that passes a systems-thinking audit at maturity 3+ enters
@@ -372,16 +372,16 @@ project controls practice:
 
 ```text
 my-project/
-├── CLAUDE.md                    ← project AI constitution
-├── project-brief.md             ← scope, FID CAPEX, key milestones
+├── CLAUDE.md              # project AI constitution
+├── project-brief.md       # scope, FID CAPEX, milestones
 ├── 01-contracts/
 │   ├── contracts-register.csv
 │   └── change-orders/
 ├── 02-schedule/
-│   └── milestones.csv           ← milestone_id, planned_date, forecast_date, critical_path
+│   └── milestones.csv     # planned/forecast dates, critical path
 ├── 03-cost/
-│   ├── evm-timephased.csv       ← one row per WBS element per reporting period
-│   └── evm-output/              ← written by the EVM skill each period
+│   ├── evm-timephased.csv # one row per WBS per period
+│   └── evm-output/        # written by EVM skill each period
 ├── 04-resources/
 │   └── resource-matrix.csv
 └── 05-risk/
@@ -437,7 +437,7 @@ and terrain type (abbreviated):
 
 base_cost_eur_per_km:
   DN300: 1_450_000
-  DN400: 1_920_000      # H2-PIPE-DE-001 reference value
+  DN400: 1_920_000  # H2-PIPE-DE-001 reference
   DN500: 2_650_000
   DN600: 3_400_000
 
@@ -445,9 +445,10 @@ terrain_factors:
   flat_agricultural: 1.00
   rolling_rural:     1.15
   urban_corridor:    1.60
-  river_crossing_hdd: 2.50   # per crossing
+  river_crossing_hdd: 2.50  # per crossing
 
-h2_service_premium:  0.15    # +15% for H2-grade materials (HIC-tested, dry-gas seals)
+h2_service_premium: 0.15
+# +15% for H2-grade materials (HIC-tested, dry-gas seals)
 
 contingency_by_class:
   class_5: [0.30, 0.50]      # conceptual estimate
@@ -476,10 +477,10 @@ invokes them automatically on matching prompts.
 
 | Agent | Trigger | Output |
 | --- | --- | --- |
-| EVM Analyst | Monthly cycle; cost or schedule performance data | EV report, 5 charts, 3 EAC forecasts, RAG status, escalation flags |
-| Schedule Analyzer | Milestone slip; SPI below threshold; "schedule review" | Schedule health report, critical path float, recovery options |
-| Contract Reviewer | Change order; claim notice; new contract | Commercial summary, flagged clauses, CO entitlement assessment |
-| Risk Assessor | Monthly cycle; new risk identified | EMV-ranked Top-10 risk digest, escalation flags |
+| EVM Analyst | Monthly cost/schedule cycle | EV report, charts, EAC, RAG, escalations |
+| Schedule Analyzer | Milestone slip; low SPI | Schedule health, float, recovery options |
+| Contract Reviewer | Change order or new contract | Commercial summary, flagged clauses |
+| Risk Assessor | Monthly cycle; new risk | Top-10 EMV digest, escalations |
 
 The `schedule-analyzer` agent executes a defined sequence: read `milestones.csv`
 and flag any milestone with a forecast slip exceeding 14 days; calculate total
@@ -642,7 +643,8 @@ The fifteen rules are derived directly from the failure patterns in the fifteen
 case studies. Each rule addresses a recurring failure class, states its
 rationale in one sentence, and specifies the PRESENT, PARTIAL, and ABSENT
 criteria that allow consistent rating across reviewers and projects. Appendix B
-contains the full table; the rules are:
+lists the rules; full PRESENT/PARTIAL/ABSENT criteria are in
+`systems-thinking/references/sys-rules.md`. The rules are:
 
 | Rule | Short title | Core failure addressed |
 | --- | --- | --- |
@@ -740,9 +742,9 @@ follow-on tools, matching specific SYS rules to purpose-built capabilities:
 
 | Skill | SYS rule(s) | Use case |
 | --- | --- | --- |
-| `what-if-oracle` | SYS-11 | Scenario stress test: carbon price ±50%, demand −20%, interest rates +200bp, permit delay +24 months |
-| `perplexity-search` | SYS-03 | Regulatory due diligence: jurisdiction-specific permit requirements, levy classifications, subsidy status |
-| `literature-review` | SYS-07 | Reference class forecasting: comparable projects, published cost-to-complete distributions, IPA benchmarks |
+| `what-if-oracle` | SYS-11 | Scenario stress: carbon ±50%, demand −20%, rates +200bp |
+| `perplexity-search` | SYS-03 | Regulatory due diligence for jurisdiction |
+| `literature-review` | SYS-07 | Reference class forecasting, IPA benchmarks |
 
 The skill does not auto-invoke these tools; it flags their applicability in the
 recommended next actions section, preserving user control over which follow-on
@@ -948,7 +950,7 @@ Claude model, not the absolute quality of either output.
 
 ### 6.2 Test Scenarios
 
-#### Scenario 1: Offshore Wind and Green Hydrogen, Norwegian Continental Shelf (pre-FID)
+#### Scenario 1: Offshore Wind and Green H2, Norway (pre-FID)
 
 A 500 MW offshore wind installation combined with a hydrogen electrolysis
 facility, targeting green hydrogen export via a proposed TSO pipeline network.
@@ -961,7 +963,7 @@ The systemic risks in this scenario include an unmodelled hydrogen export chain
 has not been stress-tested against carbon price and demand fluctuations
 (SYS-11).
 
-#### Scenario 2: Hospital Electronic Health Record Transformation, Germany (supervisory board update)
+#### Scenario 2: Hospital EHR Transformation, Germany
 
 A €340 million EHR transformation programme spanning eight German hospitals,
 with Phase 1 declared complete but Phase 2 — clinical integration and workflow
@@ -973,7 +975,7 @@ software installation and clinical integration (SYS-08), undefined criteria for
 continuation or termination given sunk costs (SYS-12), and an operating model
 that has not been validated in clinical workflow terms (SYS-13).
 
-#### Scenario 3: FOAK Lithium Hydroxide Refinery, Finland (PMO stage-gate)
+#### Scenario 3: FOAK LiOH Refinery, Finland
 
 A €1.1 billion first-of-a-kind LiOH refinery project based on Australian
 spodumene feedstock, projecting an 18% IRR at prevailing lithium prices. The
@@ -1003,9 +1005,16 @@ assertions test whether the skill-mandated framework is applied:
 - **identifies_critical_gaps** — ranked gap section with at least three gaps
 - **recommends_tool_stack** — specific named tools recommended in next actions
 
-Domain-specific assertions varied by scenario: `flags_hydrogen_pipeline_gap`,
-`flags_integration_gap`, `flags_kill_criteria`, `flags_foak_risk`,
-`flags_permit_gap`, `flags_business_case_stress`.
+Domain-specific assertions varied by scenario:
+
+```text
+flags_hydrogen_pipeline_gap
+flags_integration_gap
+flags_kill_criteria
+flags_foak_risk
+flags_permit_gap
+flags_business_case_stress
+```
 
 ### 6.4 Results
 
@@ -1046,10 +1055,17 @@ the skill file.
 A post-hoc analysis of assertion behaviour identified two categories:
 
 **Strongly discriminating (skill 100%, baseline 0%):** All structural and
-vocabulary assertions — `covers_all_15_rules`, `uses_rating_vocabulary`,
-`uses_omission_vocabulary`, `recommends_tool_stack`. These assertions fail in
-every without-skill run because the unaided model invents a different framework
-each time.
+vocabulary assertions:
+
+```text
+covers_all_15_rules
+uses_rating_vocabulary
+uses_omission_vocabulary
+recommends_tool_stack
+```
+
+These assertions fail in every without-skill run because the unaided model
+invents a different framework each time.
 
 **Non-discriminating (both pass):** Domain-knowledge assertions — whether the
 output identifies the hydrogen pipeline gap, the Finnish permit requirement,
@@ -1266,19 +1282,20 @@ All components install by copying directories into the Claude Code skills
 folder and, for the Python-based skills, running one `pip install`:
 
 ```bash
-# Skills
-cp -r evm/ ~/.claude/skills/evm/
-cp -r budget-estimator/ ~/.claude/skills/budget-estimator/
-cp -r systems-thinking/ ~/.claude/skills/systems-thinking/
-pip install -r ~/.claude/skills/evm/requirements.txt
-pip install -r ~/.claude/skills/budget-estimator/requirements.txt
+SK=~/.claude/skills
+cp -r evm/ $SK/evm/
+cp -r budget-estimator/ $SK/budget-estimator/
+cp -r systems-thinking/ $SK/systems-thinking/
+pip install -r $SK/evm/requirements.txt
+pip install -r $SK/budget-estimator/requirements.txt
 
 # Project scaffolding (per project)
 cp scaffolding/CLAUDE.md my-project/CLAUDE.md
 cp -r scaffolding/.claude/ my-project/.claude/
 cp -r scaffolding/heuristics/ my-project/heuristics/
 cp -r scaffolding/schemas/ my-project/schemas/
-cp scaffolding/templates/project-brief.md my-project/project-brief.md
+cp scaffolding/templates/project-brief.md \
+  my-project/project-brief.md
 ```
 
 Claude Code discovers the skills at startup; no further configuration is
@@ -1290,9 +1307,9 @@ Each skill triggers automatically on intent, not exact keywords:
 
 | Skill | Trigger examples |
 | --- | --- |
-| `systems-thinking` | "systems thinking audit", "SYS audit", "check this project for blind spots", "what could go wrong with this project?", sharing a project document before a board, FID, or stage-gate review |
-| `budget-estimator` | "estimate CAPEX", "P50/P90", "probabilistic estimate", "what will this project cost", providing a YAML file with a `work_packages:` key |
-| `evm` | "run EVM", "earned value", "CPI/SPI", "EAC forecast", providing a CSV with `bac`, `bcws_cum`, `bcwp_cum`, `acwp_cum` columns |
+| `systems-thinking` | "systems thinking audit", "SYS audit", blind-spot check; project docs before board/FID gate |
+| `budget-estimator` | "estimate CAPEX", "P50/P90", Monte Carlo; YAML with `work_packages:` |
+| `evm` | "run EVM", "earned value", CPI/SPI, EAC; CSV with bac/bcws/bcwp/acwp columns |
 
 ### 8.3 What Input to Provide to the Audit Skill
 
@@ -1391,23 +1408,26 @@ can be tracked across gate reviews to verify closure.
 
 ## Appendix B — The Fifteen SYS Rules
 
-| Rule ID | Short Rule | Rationale | PRESENT criteria | PARTIAL criteria | ABSENT criteria |
-| --- | --- | --- | --- | --- | --- |
-| SYS-01 | Full value chain mapped | Many failures occur outside the built object | Chain from feedstock/input to operations, maintenance, and exit is documented and owned | Chain sketched but missing upstream, downstream, or exit logic | Only the physical asset is described |
-| SYS-02 | Second and third-order effects | Systemic damage arrives indirectly | Indirect effects on grid, operations, tax, permitting, neighbours, and maintenance have been assessed | Some secondary effects identified; no systematic coverage | Effects assessed only at first order |
-| SYS-03 | Regulatory map before FID | Late legal and levy findings destroy business cases | All permits, classifications, levies, subsidies, and liabilities documented with status and timeline | Key regulatory elements listed; no jurisdiction analysis or timeline | Regulatory environment not mapped |
-| SYS-04 | Design-maturity threshold before commitment | Build-before-design-freeze is the core overrun pattern | Open design points inventoried; design-freeze criteria defined; manufacturing/construction commitment conditional on maturity threshold | Design maturity acknowledged; no formal threshold or open-point register | Construction or supply-chain commitment pre-dates design freeze |
-| SYS-05 | Interface ownership and evidence | Unmanaged interfaces become the critical path late | Interface register exists; every critical interface has a named owner and a defined maturity evidence requirement | Key interfaces listed; ownership partial or informal; no maturity evidence | Interfaces not identified; no register |
-| SYS-06 | Risk-adjusted estimate alongside point estimate | Point budgets create false certainty | P50 and P80 or P90 estimates with Monte Carlo or equivalent; contingency sized to spread, not percentage | Range estimates produced but without simulation or explicit drivers | Single-point estimate only |
-| SYS-07 | Outside view before sponsor view | Internal teams systematically underestimate | Reference class applied; optimism-bias uplift calculated; estimate compared to comparable projects | Reference class mentioned; no calibration or uplift applied | No outside view; estimate based on internal assumptions only |
-| SYS-08 | Integration modelled as its own megaproject | Integration planned too late and too small | Integration and test phase has its own plan, budget, team, and operational-readiness evidence steps | Integration acknowledged; plan exists but is underweighted relative to civil/engineering spend | Integration phase not separately planned |
-| SYS-09 | Supply-chain and workforce readiness | Immature supply chain is a system risk, not a procurement risk | Top-10 suppliers or critical trades assessed for single-point-of-failure; QA maturity and capacity confirmed | Key suppliers identified; no formal readiness assessment | Supply-chain risk treated as procurement task only |
-| SYS-10 | Stakeholders as system components | Social licence failure tips projects into legal or political paths | Stakeholder map includes who can delay, how, and from when; engagement strategy exists with legitimacy assessment | Stakeholder map sketched; no consequence modelling | Stakeholders listed as communications targets only |
-| SYS-11 | Business case stress-tested under policy and price scenarios | Fragile economics do not survive real market paths | Scenario matrix covers commodity price, demand, policy, and rate shocks; business case viable at P20 conditions | Sensitivity analysis performed; no combined or downside scenario | Business case modelled at single base case |
-| SYS-12 | Kill criteria explicitly defined | Without exit criteria, sunk costs drive continuation | Three or more specific findings that trigger scope change, resequencing, or project termination are documented | Kill concept acknowledged; criteria vague or aspirational | No kill criteria; project defined as unconditional commitment |
-| SYS-13 | Operations and maintenance in scope of definition | ORAT and handover gaps discovered only at commissioning | Operating model, O&M cost basis, data hand-over requirements, and ORAT steps are within the project definition scope | O&M mentioned; no operating model or ORAT plan | O&M treated as a post-FID problem |
-| SYS-14 | FOAK treated as learning programme | First-of-a-kind projects mismanaged as if they were serial delivery | FOAK-specific assumptions documented; reserves sized for learning curve; knowledge-capture programme defined | FOAK risk acknowledged; reserves not differentiated from NOAK contingency | FOAK project scoped, costed, and contracted as if it were a repeat project |
-| SYS-15 | Cluster and platform questions escalated to portfolio level | Single-project optimisation produces sub-optimal network solutions | Project is explicitly positioned within a platform or cluster strategy; network effects modelled | Portfolio context acknowledged; no formal platform analysis | Project treated as a standalone asset regardless of network dependencies |
+Full PRESENT, PARTIAL, and ABSENT rating criteria for each rule are in
+`systems-thinking/references/sys-rules.md` in the repository. Summary:
+
+| Rule | Short title | Core failure addressed |
+| --- | --- | --- |
+| SYS-01 | Full value chain | Missing upstream/downstream dependencies |
+| SYS-02 | Second and third-order effects | Indirect systemic consequences |
+| SYS-03 | Regulatory map before FID | Late legal and levy discoveries |
+| SYS-04 | Design-maturity threshold | Build-before-design-freeze |
+| SYS-05 | Interface ownership and evidence | Unmanaged system interfaces |
+| SYS-06 | Risk-adjusted estimate | False certainty in point budgets |
+| SYS-07 | Outside view first | Systematic optimism bias |
+| SYS-08 | Integration as its own megaproject | Late and under-resourced integration |
+| SYS-09 | Supply-chain and workforce readiness | FOAK supply-chain brittleness |
+| SYS-10 | Stakeholders as system components | Social licence as project risk |
+| SYS-11 | Business case stress test | Fragile economics under policy/price scenarios |
+| SYS-12 | Explicit kill criteria | Sunk-cost traps in prestige projects |
+| SYS-13 | Operations and maintenance in definition | ORAT and handover gaps |
+| SYS-14 | FOAK as learning programme | First-of-a-kind treated as serial production |
+| SYS-15 | Cluster and platform level | Sub-optimal standalone asset solutions |
 
 ---
 
@@ -1455,7 +1475,7 @@ The working system — EVM skill, budget estimator, systems-thinking audit skill
 scaffolding templates, domain heuristics, JSON schemas, specialist agent
 definitions, and a complete example project — is available at:
 
-[https://github.com/jmeier1963/large_capital_project_management](https://github.com/jmeier1963/large_capital_project_management)
+[github.com/jmeier1963/large_capital_project_management](https://github.com/jmeier1963/large_capital_project_management)
 
 The repository includes:
 
@@ -1463,11 +1483,9 @@ The repository includes:
   pandas and matplotlib)
 - `budget-estimator/budget_estimator.py` — parametric CAPEX engine with P50/P90
   Monte Carlo
-- `systems-thinking/` — audit skill with `SKILL.md`, full SYS rule criteria,
-  evaluation scenarios, and a packaged `.skill` file
+- `systems-thinking/` — audit skill, SYS rule criteria, evaluation scenarios
 - `scaffolding/` — project configuration templates for immediate deployment
-- `examples/H2-PIPE-DE-001/` — complete worked example: 500 km H2 pipeline,
-  five months of EVM data, illustrated analysis outputs
+- `examples/H2-PIPE-DE-001/` — worked example: 500 km H2 pipeline, EVM data
 - `README.md` — step-by-step installation and usage instructions
 
 Installation requires copying skill directories and running one `pip install`
@@ -1499,17 +1517,12 @@ command per Python-based skill.
 6. Hydrogen Council & McKinsey & Company (2025). *Global Hydrogen Compass*.
    USD 110B committed investment across 500+ post-FID projects.
 
-7. Case studies and root-cause analysis drawn from: NAO, *Crossrail: a
-   progress update* (2019); NAO, *Carbon capture and storage: lessons from the
-   competition* (2017); PAC/NAO, *National Programme for IT in the NHS* (2011);
-   STUK, *Summary Investigation Report on Olkiluoto 3* (2007); ASN / Cour des
-   comptes reports on Flamanville 3 (2019–2024); DOE lessons learned on
-   Vogtle/AP1000 (2022); National Academies / FHWA, Big Dig case studies
-   (2003); Scottish Parliament Audit Committee, *Holyrood: The Management of
-   the Holyrood Building Project* (2004); Rio Tinto, Oyu Tolgoi Underground
-   Project updates (2021–2022); Trafikverket-related reports on Hallandsås
-   (2015); Barrick Gold annual reports and Reuters coverage of Pascua-Lama
-   (2012–2018); Gassnova/TCM reports on Mongstad CCS (2013).
+7. Case studies and root-cause analysis drawn from public post-mortems
+   including NAO reports on Crossrail (2019), carbon capture (2017), and
+   NPfIT (2011); STUK on Olkiluoto 3 (2007); ASN on Flamanville 3; DOE on
+   Vogtle; National Academies on the Big Dig; Holyrood Audit Committee
+   (2004); Rio Tinto on Oyu Tolgoi; Trafikverket on Hallandsås; Barrick on
+   Pascua-Lama; and Gassnova on Mongstad CCS.
 
 8. NAO. (2017). *Carbon capture and storage: lessons from the competition*.
    London: National Audit Office. Primary source for Longannet full-chain
@@ -1533,8 +1546,8 @@ command per Python-based skill.
 
 13. Meier, J. (2026). *Systems Thinking in Large-Scale Projects: Research
     Report*. Unpublished research report. Internal reference for the research
-    basis of the skill design. (See
-    `concept-paper/references/systems-thinking-research-report-en.md`.)
+    basis of the skill design. (See systems-thinking-research-report-en.md in
+    the repository references folder.)
 
 14. Independent Project Analysis (IPA). *Capital Project System Improvement*.
     Project Control Index methodology and performance correlation.

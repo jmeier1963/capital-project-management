@@ -1,0 +1,30 @@
+\usepackage{newunicodechar}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{−}{-}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{÷}{\ensuremath{\div}}
+\newunicodechar{×}{\ensuremath{\times}}
+
+\usepackage{microtype}
+\usepackage{titlesec}
+\titleformat{\paragraph}[block]{\normalfont\normalsize\bfseries}{}{0em}{}
+\titlespacing{\paragraph}{0pt}{2.5ex plus 1ex minus .2ex}{1em}
+\titleformat{\subparagraph}[block]{\normalfont\normalsize\bfseries}{}{0em}{}
+\titlespacing{\subparagraph}{0pt}{2.5ex plus 1ex minus .2ex}{1em}
+
+\usepackage[hyphens]{url}
+\makeatletter
+\g@addto@macro{\UrlBreaks}{\do\-\do\_\do\/\do.\do=\do?\do&\do:}
+\makeatother
+\let\oldtexttt\texttt
+\renewcommand{\texttt}[1]{\begingroup\footnotesize\ttfamily\url{#1}\endgroup}
+
+\usepackage{fvextra}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{%
+  breaklines,breakanywhere=true,breaksymbolleft=,breaksymbolright=,%
+  fontsize=\footnotesize,commandchars=\\\{\}}
+
+\usepackage{etoolbox}
+\BeforeBeginEnvironment{longtable}{\footnotesize\setlength{\tabcolsep}{3pt}}
+\AfterEndEnvironment{longtable}{\normalsize}
