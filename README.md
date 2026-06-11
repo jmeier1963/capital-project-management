@@ -9,6 +9,8 @@ Monte Carlo simulation, and a **Systems Thinking audit skill** that stress-tests
 project definitions against fifteen research-derived heuristics before FID or
 stage-gate review.
 
+![Overview of the AI-augmented large capital project management skill suite](overview_projectmanagement.png)
+
 The full rationale, architecture, evaluation results, and investment case are
 documented in the integrated concept paper:
 [`concept-paper/large_capital_project_management.md`](concept-paper/large_capital_project_management.md)
