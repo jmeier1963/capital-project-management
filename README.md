@@ -3,18 +3,22 @@
 A **Claude Code skill and project scaffolding system** for large capital projects
 (LCPs) such as hydrogen pipelines, offshore platforms, refineries, and
 infrastructure programmes. Combines structured data schemas, domain heuristics,
-specialist agents, a fully working **Earned Value Management (EVM) skill**, a
-**parametric Budget Estimator skill** that produces P50/P90 CAPEX forecasts via
-Monte Carlo simulation, and a **Systems Thinking audit skill** that stress-tests
-project definitions against fifteen research-derived heuristics before FID or
-stage-gate review.
+specialist agents, and five skills covering the full project lifecycle:
+
+| Skill | Lifecycle position | What it does |
+|-------|--------------------|--------------|
+| `systems-thinking` | Pre-FID definition | Audits a project definition against 15 research-derived heuristics; maturity score, ranked gaps, omission flags |
+| `budget-estimator` | Pre-FID estimating | Parametric P50/P90 CAPEX via 10,000-iteration Monte Carlo, AACE-class calibrated |
+| `gate-readiness` | Every decision gate | Assembles and assesses the stage-gate evidence pack; READY / CONDITIONALLY READY / NOT READY |
+| `evm` | Execution | ANSI/EIA-748 Earned Value Management: 10 metrics, 3 EAC methods, 5 charts, automatic escalations |
+| `lessons-learned` | Close-out | Estimate-vs-actual review, variance attribution, heuristics calibration, SYS-mapped lessons register |
 
 ![Overview of the AI-augmented large capital project management skill suite](overview_projectmanagement.png)
 
 The full rationale, architecture, evaluation results, and investment case are
 documented in the integrated concept paper:
-[`concept-paper/large_capital_project_management.md`](concept-paper/large_capital_project_management.md)
-([PDF](concept-paper/large_capital_project_management.pdf)).
+[`concept-paper/large_capital_project_management_2026-06-12.md`](concept-paper/large_capital_project_management_2026-06-12.md)
+([PDF](concept-paper/large_capital_project_management_2026-06-12.pdf)).
 
 ---
 
@@ -64,8 +68,14 @@ documented in the integrated concept paper:
 │   │   └── evals.json           #   3 test scenarios with assertions
 │   └── systems-thinking.skill   #   Packaged .skill file for direct installation
 │
+├── gate-readiness/              # Stage-gate evidence pack skill
+│   └── SKILL.md                 #   Gate evidence matrix + readiness assessment
+│
+├── lessons-learned/             # Close-out & heuristics calibration skill
+│   └── SKILL.md                 #   Estimate-vs-actual, calibration, lessons register
+│
 ├── concept-paper/               # Academic-practitioner paper
-│   ├── large_capital_project_management.md/.pdf   # Integrated concept paper
+│   ├── large_capital_project_management_2026-06-12.md/.pdf   # Integrated concept paper
 │   ├── pandoc-pdf-header.tex    #   LaTeX preamble for the PDF build
 │   └── references/
 │       ├── large_capital_project_management_execution_skill.md/.pdf
@@ -94,26 +104,32 @@ documented in the integrated concept paper:
 
 ## Installation
 
-### 1 — Install the EVM skill into Claude Code
+### 1 — Install the skills into Claude Code
 
-Copy the `evm/` directory into your Claude Code skills folder:
+Copy the skill directories into your Claude Code skills folder:
 
 ```bash
 # macOS / Linux
-cp -r evm/ ~/.claude/skills/evm/
+for s in evm budget-estimator systems-thinking gate-readiness lessons-learned; do
+  cp -r $s/ ~/.claude/skills/$s/
+done
 
 # Windows (PowerShell)
-Copy-Item -Recurse evm\ $env:USERPROFILE\.claude\skills\evm\
+"evm","budget-estimator","systems-thinking","gate-readiness","lessons-learned" |
+  ForEach-Object { Copy-Item -Recurse $_ "$env:USERPROFILE\.claude\skills\$_" }
 ```
 
-Install Python dependencies:
+Install Python dependencies for the two computational skills:
 
 ```bash
 pip install -r ~/.claude/skills/evm/requirements.txt
+pip install -r ~/.claude/skills/budget-estimator/requirements.txt
 ```
 
-That's it. Claude Code will discover the skill automatically on next launch
-(it scans `~/.claude/skills/` for `SKILL.md` files).
+That's it. Claude Code will discover the skills automatically on next launch
+(it scans `~/.claude/skills/` for `SKILL.md` files). The `gate-readiness` and
+`lessons-learned` skills are behavioural (markdown-only) and need no
+dependencies.
 
 ### 2 — Set up a new project using the scaffolding
 
@@ -508,8 +524,84 @@ authoritative public post-mortems. The five recurring systemic blindspots are:
 4. **Physical-social coupling** (Hallandsås Tunnel, Pascua-Lama)
 5. **Governance fragmentation** (Scottish Parliament, Big Dig, Crossrail)
 
-Full analysis in `concept-paper/large_capital_project_management.md` (Section 3)
-and `concept-paper/references/systems-thinking-research-report-en.md`.
+Full analysis in `concept-paper/large_capital_project_management_2026-06-12.md`
+(Section 3) and `concept-paper/references/systems-thinking-research-report-en.md`.
+
+---
+
+## Using the Gate-Readiness Skill
+
+The gate-readiness skill assembles and assesses the evidence pack for a
+decision gate (Concept → Pre-FEED, Pre-FEED → FEED, FEED → FID, execution
+re-baseline, Closeout). It does not re-perform analysis — it checks that the
+artifacts the other skills produce actually exist, are current, and meet the
+phase-appropriate standard, then issues a **READY / CONDITIONALLY READY /
+NOT READY** assessment with a closure plan for every deficiency.
+
+### Automatic activation
+
+- `"gate readiness"`, `"gate review"`, `"stage gate"`, `"FID readiness"`
+- `"are we ready for FID?"`, `"assemble the gate pack"`, `"gate evidence pack"`
+
+### What it checks (FEED → FID example)
+
+| Evidence item | Required standard |
+|---------------|-------------------|
+| Systems-thinking audit | Maturity ≥ 3, all omission flags dispositioned |
+| P50/P90 estimate | AACE Class 3 or better, < 90 days old |
+| Regulatory map | All items with owner and status |
+| Interface register | Named owner per interface |
+| Risk register | Schema-valid, EMV and mitigation owners |
+| Kill criteria | Explicitly documented |
+| Outside view | Reference class comparison on cost and schedule |
+
+A budget request below the estimate's P50, or an open omission flag carried
+across two gates, is an automatic finding. The full per-gate evidence matrix
+is in `gate-readiness/SKILL.md`.
+
+---
+
+## Using the Lessons-Learned Skill
+
+The lessons-learned skill closes the institutional learning loop at project or
+work-package close-out. It compares final actuals against the original P50/P90
+estimate, attributes the variance (scope change vs productivity vs materialised
+risks vs escalation), and proposes versioned updates to the `heuristics/*.yaml`
+benchmark library — as an explicit YAML diff for human review, never an
+automatic write. Lessons are recorded in a standardised register mapped to the
+15 SYS rules, and the skill reports whether the gaps flagged in the original
+pre-FID audit actually materialised.
+
+### Automatic activation
+
+- `"lessons learned"`, `"close-out review"`, `"post-project review"`
+- `"estimate vs actual"`, `"calibrate heuristics"`, `"how good was our estimate?"`
+
+### Outputs
+
+| Section | Content |
+|---------|---------|
+| Estimate accuracy | Actual vs P50/P90 per work package, position in the distribution |
+| Variance attribution | Scope / productivity / risk / escalation / residual |
+| Calibration proposal | YAML diff with version bump and provenance update |
+| Lessons register | LL entries with root cause, SYS-rule mapping, actionable recommendation |
+| Audit feedback | Did the pre-FID omission flags materialise? Any candidate new pattern? |
+
+---
+
+## How the Skills Interconnect
+
+```text
+systems-thinking ──SYS-06 gap──▶ budget-estimator ──P50/P90──▶ evm (EAC benchmark)
+        │                              │                          │
+        └────── audit + flags ─────────┴──── estimate ────────────┴── EVM report
+                                       │
+                                gate-readiness  ◀── evidence pack at every gate
+                                       │
+                               lessons-learned  ◀── actuals at close-out
+                                       │
+                          heuristics/*.yaml calibration ──▶ next project's estimate
+```
 
 ---
 
@@ -610,6 +702,12 @@ always cite these when applying the numbers.
 
 5. **Assemble report deck** — use the `pptx` skill (if installed) to build
    the monthly progress presentation from the EVM report and chart files.
+
+6. **At decision gates** — type `"gate readiness"` to assemble and assess the
+   evidence pack before any stage-gate or re-baselining decision.
+
+7. **At package or project completion** — type `"lessons learned"` to run the
+   close-out review and generate the heuristics calibration proposal.
 
 ---
 

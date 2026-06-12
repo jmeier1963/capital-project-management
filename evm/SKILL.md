@@ -10,7 +10,7 @@ description: >
   "project cost performance", "EAC forecast", "analyse project costs",
   or when the user provides a file whose columns include bac/bcws/bcwp/acwp.
 metadata:
-  version: 1.0.0
+  version: 1.1.0
   dependencies: python>=3.9, pandas>=2.0.0, matplotlib>=3.7.0, numpy>=1.24.0
   standard: ANSI/EIA-748, PMI Practice Standard for EVM (3rd ed.)
   domain: capital project management / project controls
@@ -40,24 +40,50 @@ The user wants a complete EVM report. Execute it now.
 1. **Identify the CSV file** — from the user's message, the current project directory
    (`projects/<id>/03-cost/`), or ask for the path if no file is evident.
 
-2. **Run the calculator**:
+2. **Validate the data before analysis** (see Data Validation Checks below).
+   Report any anomalies found, then proceed — do not block the analysis unless
+   the data is unusable.
+
+3. **Run the calculator**:
    ```bash
    python ~/.claude/skills/evm/evm_calculator.py <path-to-csv> --output /tmp/evm-output/
    ```
 
-3. **Display the markdown report** in full — do not summarise or truncate it.
+4. **Display the markdown report** in full — do not summarise or truncate it.
 
-4. **Show all five charts** — present each PNG inline with a caption.
+5. **Show all five charts** — present each PNG inline with a caption.
 
-5. **Interpret the results** — add a 3–5 sentence plain-language interpretation
+6. **Interpret the results** — add a 3–5 sentence plain-language interpretation
    after the report tables, covering:
    - Overall project health (cost + schedule)
    - The worst-performing WBS package and why it matters
    - The recommended EAC and what it means for the approved budget
    - Whether any escalation flags require immediate action
 
-6. **Suggest next steps** — one concise bullet list of ≤5 actionable items
+7. **Benchmark the EAC** — if an `estimate-report.md` from the
+   `budget-estimator` skill or an approved FID CAPEX (from `project-brief.md`)
+   is available, state explicitly where the recommended EAC sits relative to
+   the P50 planning basis and the P90 ceiling. EAC > P90 is itself an
+   escalation-worthy finding.
+
+8. **Suggest next steps** — one concise bullet list of ≤5 actionable items
    (e.g., investigate specific package, update risk register entry, convene recovery meeting).
+
+## Data Validation Checks (run before analysis)
+
+Inspect the CSV and flag any of the following before presenting results:
+
+| Check | Why it matters |
+|-------|----------------|
+| Cumulative values must be non-decreasing per WBS across periods | Decreasing BCWS/BCWP/ACWP usually means period values were supplied instead of cumulative — results would be meaningless |
+| BCWP must not exceed BAC for any WBS | Earned value above budget at completion indicates a progress-measurement or baseline error |
+| BCWS at the latest period should not exceed BAC | Planned value above BAC indicates a baseline inconsistency |
+| Zero ACWP with non-zero BCWP (or vice versa) | Likely missing actuals or missing progress capture for that package |
+| Missing periods in a time-phased series | Gaps distort trend charts and consecutive-period escalation rules |
+| Reporting period older than 60 days | Flag as potentially stale (consistent with project CLAUDE.md data rules) |
+
+Report anomalies in a short "Data Quality Notes" block ahead of the
+interpretation. Never silently correct the data.
 
 ## Input CSV Formats
 
@@ -149,7 +175,25 @@ projects/<project-id>/
 After generating the report, compare the EAC against:
 - Approved FID CAPEX (from `project-brief.md`)
 - Parametric benchmark (from `heuristics/pipeline-cost.yaml`)
-- Previous period's EAC (trend direction)
+- P50/P90 from the latest `budget-estimator` report, if present
+- Previous period's EAC (trend direction — an EAC drifting upward three periods
+  in a row is a finding even when CPI is still AMBER)
+
+## Integration with the Skill Suite
+
+- **`budget-estimator`** — the P50 planning basis and P90 ceiling are the
+  reference frame for every EAC. If TCPI > 1.10 or re-baselining is on the
+  table, recommend a fresh P50/P90 estimate at the current AACE class before
+  any new baseline is approved.
+- **`gate-readiness`** — before a re-baselining decision or an execution-phase
+  gate, recommend assembling the gate evidence pack with the gate-readiness
+  skill rather than approving on the EVM report alone.
+- **`systems-thinking`** — a persistent RED package whose root cause is
+  structural (interface, regulatory, supply chain) rather than productivity
+  suggests a definition gap; recommend a targeted systems-thinking re-audit.
+- **`lessons-learned`** — at project completion (or major package close-out),
+  recommend the lessons-learned skill to compare final actuals against the
+  original estimate and calibrate the heuristics library.
 
 ## Example Usage
 

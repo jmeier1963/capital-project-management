@@ -4,13 +4,15 @@
 
 Prof. Dr. Johannes Meier
 
+12 June 2026 — Revised edition
+
 ---
 
 ## Executive Summary
 
 Large capital projects systematically underperform. Across a database of 16,000
 projects, Oxford University researchers found that only 8.5 percent met their
-original cost and schedule targets — and a mere 0.5 percent delivered all
+original cost and schedule targets, and a mere 0.5 percent delivered all
 promised benefits on time and on budget.^1^ McKinsey's analysis of more than
 300 projects exceeding one billion dollars in value found average cost overruns
 of 80 percent and schedule delays of 50 percent.^2^ These are not outlier
@@ -20,8 +22,8 @@ This paper argues that the underperformance has two distinct root causes, each
 addressable with structured AI support:
 
 Before the Final Investment Decision (FID), projects fail by definition.
-Analysis of fifteen landmark failure cases — spanning nuclear power stations,
-rail programmes, carbon capture schemes, hospital IT, and mining projects —
+Analysis of fifteen landmark failure cases, spanning nuclear power stations,
+rail programmes, carbon capture schemes, hospital IT, and mining projects,
 shows that projects are scoped as asset construction programmes when their
 success depends on systems that extend far beyond the built object: regulatory
 architecture, value-chain dependencies, integration economics, social licence,
@@ -30,8 +32,8 @@ project builds part of its failure in from the start.
 
 After FID, projects fail by information. McKinsey's analysis of 48 deeply
 troubled megaprojects found that 73 percent of cost and schedule overruns were
-caused by poor execution — specifically, by failures of monitoring, escalation,
-and corrective action — not by flawed original designs.^3^ Project controls
+caused by failures of monitoring, escalation, and corrective action during
+execution, not by flawed original designs.^3^ Project controls
 data is generated too slowly, integrated too rarely, and interpreted too
 inconsistently for management to act before damage accumulates.
 
@@ -39,7 +41,7 @@ This paper presents an integrated, deployable response: a suite of Claude Code
 skills and project scaffolding that spans the capital project lifecycle:
 
 - **`systems-thinking`** — a pre-FID audit skill that stress-tests a project
-  definition against fifteen research-derived heuristics, producing a
+  definition against fifteen research-derived heuristics and produces a
   board-ready report with a 1–5 maturity score, a ranked gap list in a
   standardised omission vocabulary, and a recommended tool stack. In structured
   evaluation, outputs produced with the skill passed 100 percent of assertions,
@@ -51,7 +53,18 @@ skills and project scaffolding that spans the capital project lifecycle:
 - **`evm`** — an execution-phase Earned Value Management skill (ANSI/EIA-748
   compliant) that converts raw cost and schedule data into ten financial
   metrics per WBS package, three EAC forecast methods, five publication-ready
-  charts, and automatic escalation flags — in minutes rather than days.
+  charts, and automatic escalation flags, in minutes rather than days.
+- **`gate-readiness`** — a stage-gate governance skill that checks the
+  project's evidence base against an explicit, phase-calibrated checklist
+  (estimate class, audit maturity, regulatory map, kill criteria) and issues a
+  READY / CONDITIONALLY READY / NOT READY assessment with a closure plan, so
+  that approving bodies decide on the state of the evidence rather than on a
+  narrative about it.
+- **`lessons-learned`** — a close-out skill that compares final actuals
+  against the original P50/P90 estimate, attributes the variance to scope,
+  productivity, risk events, and escalation, and proposes versioned,
+  provenance-tracked updates to the heuristics library, so that each
+  completed project becomes calibration data for the next one.
 - **Project scaffolding** — a `CLAUDE.md` AI constitution encoding judgment and
   escalation rules, versioned domain heuristics with mandatory provenance,
   JSON schema validation, and three specialist agents (schedule analysis,
@@ -69,19 +82,14 @@ hydrogen transmission pipeline (EUR 1.75 billion CAPEX). It is available as
 open-source code at
 [github.com/jmeier1963/large_capital_project_management](https://github.com/jmeier1963/large_capital_project_management).
 
-This paper asks the board to authorize a pilot on one live capital project,
-to assign a senior executive as accountable owner, and to commission a data
-governance policy that defines which project data is permissible to process
-through AI systems and under what conditions.
-
 ---
 
 ## 1. The Capital Project Performance Crisis
 
 ### 1.1 The Scale of the Problem
 
-Flyvbjerg's landmark study — the largest empirical analysis of project
-performance ever conducted — established what he calls the "iron law of
+Flyvbjerg's landmark study, the largest empirical analysis of project
+performance ever conducted, established what he calls the "iron law of
 megaprojects": over budget, over time, over and over again.^4^ The headline
 numbers bear repeating:
 
@@ -90,8 +98,8 @@ numbers bear repeating:
 - **0.5%** deliver cost, schedule, *and* promised benefits
 
 McKinsey adds sectoral granularity. Rail projects overrun by an average of 45
-percent. Bridges and tunnels by 35 percent. Mining and metals projects — among
-the most capital-intensive category — see 83 percent of major projects exceed
+percent. Bridges and tunnels by 35 percent. Mining and metals projects, among
+the most capital-intensive category, see 83 percent of major projects exceed
 planned CAPEX by more than 40 percent, with average delays of 20 to 30
 months.^5^
 
@@ -103,33 +111,33 @@ missed carbon commitments, and competitive disadvantage in a market where
 first-mover timing is commercially decisive.
 
 These figures, while sobering, describe symptoms rather than causes. The causes
-divide into two phases of the project lifecycle — and each demands a different
+divide into two phases of the project lifecycle, and each demands a different
 analytical response.
 
 ### 1.2 Failure Mechanism One: Systemic Definition Gaps Before FID
 
-The deeper pattern — visible in the best-documented failure cases — is that
+The deeper pattern, visible in the best-documented failure cases, is that
 projects are scoped as asset construction programmes when their success depends
 on systems that extend far beyond the built object. A nuclear power station
-requires not just reactor installation but integrated quality assurance,
-subcontractor oversight, and regulatory documentation as an indivisible whole.
-A carbon capture project requires not just the capture unit but a financeable
-full-chain economics spanning carbon pricing, transport tariffs, and storage
-contracts. A hospital IT programme requires not just software deployment but
-clinical workflow integration, trust autonomy, and local change capability.
+requires integrated quality assurance, subcontractor oversight, and regulatory
+documentation as an indivisible whole, not reactor installation alone.
+A carbon capture project needs financeable full-chain economics spanning
+carbon pricing, transport tariffs, and storage contracts, beyond the capture
+unit itself. A hospital IT programme depends as much on clinical workflow
+integration, trust autonomy, and local change capability as on the software.
 
 When the scope definition omits these dependencies, projects build part of
 their failure in from the start.
 
-Analysis of fifteen landmark projects — selected because authoritative public
-post-mortems exist in sufficient detail to support root-cause attribution —
+Analysis of fifteen landmark projects (selected because authoritative public
+post-mortems exist in sufficient detail to support root-cause attribution)
 reveals five recurring systemic blindspots:^7^
 
 **Blindspot 1: Legal-regulatory non-integration.** The Longannet CCS project
 in the United Kingdom was cancelled when it became clear that funding caps, the
 carbon price floor, and the contract architecture formed an incompatible
 economic system that could not be made financeable. The regulatory environment
-was not a boundary condition to be managed — it was a structural component of
+was not a boundary condition to be managed; it was a structural component of
 the project's value thesis, and it was modelled too late. Pascua-Lama in Chile
 and Argentina followed the same logic: environmental regulation and indigenous
 rights were treated as downstream permitting tasks until court decisions made
@@ -139,9 +147,9 @@ the project unbuildable.^8^
 Vogtle, and the Sydney Opera House are four variants of one pattern: political
 or commercial pressure for a visible start meets insufficiently mature design,
 incompletely validated manufacturing paths, or immature supply chains. The
-result is not merely rework; it is a qualitatively different project with newly
-created dependencies. At Olkiluoto 3, the design-fabrication-quality assurance
-loop was not treated as an integrated system — STUK investigations found that
+result goes far beyond rework: it is a qualitatively different project with
+newly created dependencies. At Olkiluoto 3, the design-fabrication-quality
+assurance loop was not treated as an integrated system. STUK investigations found that
 subcontractor control and regulatory documentation were separated from
 technical design in a way that made early cost and schedule estimates
 unrecoverable.^9^
@@ -159,7 +167,7 @@ diversity were not integrated ends of the same delivery equation.
 
 **Blindspot 4: Physical-social coupling.** The Hallandsås Tunnel in Sweden
 took 23 years and cost roughly ten times its original budget. The root cause
-was not geological surprise alone — it was that geology, groundwater chemistry,
+was not geological surprise alone. Geology, groundwater chemistry,
 environmental law, and local legitimacy were treated as separate streams rather
 than a coupled physical-legal-social system. Once toxic injection agents
 entered the groundwater, the project became politically redefinable in ways
@@ -179,9 +187,9 @@ These five blindspots are not coincident failures of project management rigour.
 They are structurally predictable consequences of defining complex
 sociotechnical systems as if they were asset construction projects. The
 implication is straightforward but uncomfortable: a project definition that
-describes the physical asset without modelling the full system — feedstock,
+describes the physical asset without modelling the full system (feedstock,
 grids, permits, tax and levy treatment, operating model, supply-chain
-readiness, social licence, and exit logic — is not a definition. It is an
+readiness, social licence, and exit logic) is not a definition. It is an
 engineering brief for one component of a system whose other components have not
 been described.
 
@@ -194,11 +202,11 @@ definition as asset definition alone."**^13^ This design principle drives the
 The intuition that projects fail in execution because of poor engineering or
 inadequate planning is only partially correct. McKinsey's analysis of 48 deeply
 troubled megaprojects found that **73 percent of cost and schedule overruns
-were caused by poor execution** — specifically, by failures of monitoring,
-escalation, and corrective action — not by flawed original designs.^3^
+were caused by poor execution**, meaning failures of monitoring, escalation,
+and corrective action rather than flawed original designs.^3^
 
-The mechanism is predictable. Project data — cost actuals, schedule progress,
-change orders, risk events — is generated continuously in the field. But in
+The mechanism is predictable. Project data (cost actuals, schedule progress,
+change orders, risk events) is generated continuously in the field. But in
 most organisations, this data travels slowly: from site time-sheets and
 contractor invoices into cost control systems, then into spreadsheets
 maintained by cost engineers, then into narrative reports assembled for
@@ -207,12 +215,12 @@ the underlying pattern may have been developing for three or four months.
 
 The consequence is that corrective actions are taken late, when the cost of
 recovery is high. A schedule slip that costs EUR 2 million to correct in month
-three may cost EUR 20 million by month nine — not because the underlying
-problem grew tenfold, but because the window for low-cost intervention closed.
+three may cost EUR 20 million by month nine, not because the underlying
+problem grew tenfold but because the window for low-cost intervention closed.
 
-Consistent, rigorous project controls — earned value management (EVM),
-integrated schedule analysis, systematic risk quantification — are the
-established antidote. The Independent Project Analysis Group (IPA), whose
+Consistent, rigorous project controls are the established antidote: earned
+value management (EVM), integrated schedule analysis, and systematic risk
+quantification. The Independent Project Analysis Group (IPA), whose
 proprietary database covers more than 20,000 capital projects, measures project
 performance against a Project Control Index (PCI). Projects with strong project
 controls consistently outperform their peers on cost, schedule, and operability
@@ -221,8 +229,8 @@ outcomes.^14^
 The barrier to universal adoption of rigorous project controls is not lack of
 awareness. It is capacity and consistency. A cost engineer maintaining full
 earned value analysis across eight WBS packages, three active contracts, and
-five reporting periods simultaneously — while also managing contractor queries,
-validating invoices, and preparing the monthly report — will, under pressure,
+five reporting periods simultaneously, while also managing contractor queries,
+validating invoices, and preparing the monthly report, will under pressure
 abbreviate the analysis. Thresholds will not be checked. EAC forecasts will not
 be run across all three methods. The escalation that should have gone to the
 Project Director this week will go next week instead.
@@ -239,8 +247,8 @@ technology was real but the deployment cost was prohibitive for all but the
 largest programmes.
 
 The shift since 2023 is qualitative, not incremental. Large language models
-(LLMs) — in particular, AI agents that reason over structured data, apply
-domain-specific rules, call tools, and generate structured outputs — have
+(LLMs), and in particular AI agents that reason over structured data, apply
+domain-specific rules, call tools, and generate structured outputs, have
 changed what is achievable without bespoke development.
 
 Three capabilities now combine in a way that was not previously available:
@@ -252,7 +260,7 @@ a mandatory written notice") and will apply those rules with perfect
 consistency on every run. The same mechanism applies to definitional audit
 rules: a fifteen-rule systems-thinking framework, encoded once, is applied in
 the same sequence with the same vocabulary on every project definition,
-regardless of sector. The rules are not remembered from a training corpus —
+regardless of sector. The rules are not remembered from a training corpus;
 they are encoded explicitly and executed deterministically.
 
 **Tool use and computation.** Modern AI agents can invoke Python scripts, read
@@ -260,7 +268,7 @@ CSV files, write structured output, and generate charts as a native part of
 their workflow. The EVM module in this system runs a Python engine
 (ANSI/EIA-748 compliant, 713 lines) that computes ten financial metrics per WBS
 package, runs three EAC forecast methods, produces five publication-ready
-charts, and writes a complete markdown report — all as a single
+charts, and writes a complete markdown report, all as a single
 AI-orchestrated pipeline. The budget estimator runs a 10,000-iteration Monte
 Carlo simulation the same way.
 
@@ -269,17 +277,17 @@ productivity norms, and contingency ranges can be loaded into the AI's context
 at runtime as versioned YAML files, without fine-tuning or model retraining.
 When the AI applies a benchmark, it cites the source and version. When project
 data falls outside the benchmark's valid range, it flags this explicitly. The
-heuristics library is updated as the organisation accumulates actuals — turning
-project experience into institutional knowledge that the AI accesses on the
-next run.
+heuristics library is updated as the organisation accumulates actuals, which
+turns project experience into institutional knowledge that the AI accesses on
+the next run.
 
 This is not a claim that AI understands project management in the way an
 experienced cost engineer or project director does. It is a more precise and
 more practically important claim: AI can perform the *routine, structured,
 rule-governed portion* of project definition review and project controls work
-with perfect consistency, freeing skilled professionals to focus on the
-*judgment-intensive* portions — contractor negotiation, root cause analysis,
-recovery planning, stakeholder strategy — where human expertise is
+with perfect consistency. That frees skilled professionals to focus on the
+*judgment-intensive* portions (contractor negotiation, root cause analysis,
+recovery planning, stakeholder strategy) where human expertise is
 irreplaceable.
 
 **Avoiding the enterprise AI trap.** Deloitte's 2025–2026 State of AI survey
@@ -292,10 +300,10 @@ than the *process* level where value is concentrated.
 In capital project management, value is concentrated in process consistency,
 not individual productivity. The question is not whether a cost engineer can
 produce a report faster with AI assistance. The question is whether every
-project — regardless of the experience level of its team, regardless of
-whether it is at the FID gate or in month thirty-two of execution — receives
-the same complete systemic audit, the same probabilistic estimate discipline,
-and the same threshold-checked EVM report, every time.
+project receives the same complete systemic audit, the same probabilistic
+estimate discipline, and the same threshold-checked EVM report, every time,
+regardless of the experience level of its team and regardless of whether it is
+at the FID gate or in month thirty-two of execution.
 
 The approach described in this paper embeds AI into the process as a
 non-optional execution step, with encoded domain rules, parameterised
@@ -308,23 +316,27 @@ pressure.
 
 ### 2.1 Lifecycle Coverage
 
-The three skills and the project scaffolding map onto the capital project
+The five skills and the project scaffolding map onto the capital project
 lifecycle as follows:
 
 | Lifecycle phase | Failure mechanism addressed | Skill / component | Primary output |
 | --- | --- | --- | --- |
 | Concept / Pre-FEED / FEED | Systemic definition gaps | `systems-thinking` | 15-rule audit, maturity score |
 | Pre-FID estimating | False certainty in point budgets | `budget-estimator` | P50/P90 CAPEX, tornado chart |
-| FID gate | Optimism bias, missing kill criteria | `systems-thinking` + tools | Gate evidence pack |
+| Every decision gate | Gates passed on incomplete evidence | `gate-readiness` | Gate evidence pack, readiness verdict |
 | Execution | Slow, inconsistent controls | `evm` + agents | Monthly EV report, escalations |
+| Close-out | Lessons paid for but not captured | `lessons-learned` | Calibrated heuristics, lessons register |
 | All phases | Discretionary judgment | Scaffolding | Encoded rules every run |
 
-The skills are deliberately independent — each can be adopted alone — but they
+The skills are deliberately independent (each can be adopted alone) but they
 compound. A project that passes a systems-thinking audit at maturity 3+ enters
 execution with an interface register, a regulatory map, and explicit kill
 criteria that the execution-phase agents can then monitor. A budget estimate
 built on the same heuristics library that the EVM module later benchmarks
-against closes the loop between estimate and actuals.
+against closes the loop between estimate and actuals. The
+`lessons-learned` skill makes that loop operational by feeding close-out
+actuals back into the heuristics library with full provenance, so the next
+project estimates from calibrated rather than inherited benchmarks.
 
 ### 2.2 Design Principles
 
@@ -332,7 +344,7 @@ The system is built on four principles that distinguish it from generic AI
 implementations:
 
 **Data first, conversation second.** Project intelligence is derived from
-structured data — CSV files, YAML configuration, JSON schemas — not from
+structured data (CSV files, YAML configuration, JSON schemas), not from
 narratives or slide decks. This makes outputs reproducible, auditable, and
 comparable across periods and across projects.
 
@@ -343,8 +355,8 @@ source. When the project falls outside the valid range, it flags this
 explicitly.
 
 **Rules encoded, not remembered.** Escalation thresholds, required approvals,
-audit criteria, and judgment rules are encoded in configuration files — the
-`CLAUDE.md` project constitution for execution rules, the `sys-rules.md`
+audit criteria, and judgment rules are encoded in configuration files: the
+`CLAUDE.md` project constitution for execution rules and the `sys-rules.md`
 reference for definitional audit criteria. They are applied automatically on
 every run, not recalled from a briefing document.
 
@@ -514,6 +526,8 @@ trigger phrases defined in `SKILL.md`.
 | evm | Purpose-built | EVM engine: 10 metrics, 5 charts, 3 EAC forecast methods |
 | budget-estimator | Purpose-built | Parametric CAPEX with P50/P90 Monte Carlo simulation |
 | systems-thinking | Purpose-built | 15-rule pre-FID systemic audit with maturity scoring |
+| gate-readiness | Purpose-built | Stage-gate evidence pack assembly and readiness verdict |
+| lessons-learned | Purpose-built | Close-out review, variance attribution, heuristics calibration |
 | pdf | Marketplace | Extract structured text from contracts and specifications |
 | pptx | Marketplace | Assemble progress presentation from EVM report and charts |
 | csv-data-summarizer | Marketplace | Statistical summary of cost registers and change order logs |
@@ -545,6 +559,51 @@ Schema validation runs automatically when Claude Code opens a project
 directory. Any invalid data file generates an immediate quality flag before
 analysis begins.
 
+### 2.4 The Integration and Feedback Skills: Gate Readiness and Lessons Learned
+
+The three analytical skills produce evidence; two further skills govern how
+that evidence is used. Both are behavioural skills (markdown instruction
+files without computational engines) because their value lies in enforcing a
+process, not in performing a calculation.
+
+**`gate-readiness` — every gate decided on the state of the evidence.** Stage
+gates fail in two ways: projects pass on incomplete evidence (the gate becomes
+theatre), or gate preparation consumes weeks of manual document assembly. The
+gate-readiness skill audits the project data store against an explicit,
+phase-calibrated evidence matrix. At FEED-to-FID, for example, that means a
+systems-thinking audit at maturity 3 or better with all omission flags
+dispositioned, a P50/P90 estimate at AACE Class 3 or better and less than 90
+days old, a regulatory map with named owners, an interface register, schema-
+valid risk register, documented kill criteria, and an outside-view reference
+class comparison. Each item is rated PRESENT, STALE, SUBSTANDARD, or ABSENT,
+and the skill issues a READY / CONDITIONALLY READY / NOT READY assessment with
+a closure plan for every deficiency. Two cross-checks are automatic: a budget
+request below the estimate's P50 is flagged (the project is asking for less
+than its own central estimate), and an omission flag carried open across two
+consecutive gates is reported as a governance finding in its own right. The
+skill integrates the other skills' outputs; it never re-performs their
+analysis, and the go/no-go decision remains with the humans at the gate.
+
+**`lessons-learned` — each project becomes calibration data for the next.**
+Most organisations pay twice for the same lesson: once on the project that
+taught it, and again on the next project that never heard it. The
+lessons-learned skill performs the close-out feedback loop in five steps. It
+measures estimate accuracy (where the final actual landed in the original
+P50/P90 distribution, and whether the claimed AACE accuracy band held). It
+attributes the variance to scope change, productivity, materialised risks,
+escalation, and an honestly stated residual, because scope growth does not
+discredit a unit-rate benchmark, while productivity variance does. It then
+proposes calibrated updates to the `heuristics/*.yaml` library as explicit
+YAML diffs with version bumps and provenance updates, for human review rather
+than automatic write; a single project is one data point, and the skill
+proposes changes only when deviations exceed the benchmark's stated accuracy
+band or confirm a pattern from a prior project. Transferable lessons are
+recorded in a standardised register mapped to the fifteen SYS rules. Finally,
+the skill closes the loop on the audit framework itself: it reports which
+pre-FID omission flags actually materialised into cost or delay, and whether
+anything material happened that no SYS rule covers. That is the evidence base
+from which the fifteen-rule framework earns its sixteenth rule, or does not.
+
 ---
 
 ## 3. The Systems-Thinking Skill: Auditing the Project Definition
@@ -561,7 +620,7 @@ flag integration risks while overlooking social licence dynamics.
 
 The result is that the quality of a pre-FID systemic review correlates strongly
 with the identity of the reviewer, not the characteristics of the project. This
-makes governance a function of personnel rather than process — an arrangement
+makes governance a function of personnel rather than process, an arrangement
 that is difficult to audit, impossible to mandate, and unlikely to scale across
 a portfolio.
 
@@ -569,7 +628,7 @@ a portfolio.
 
 A Claude Code skill packages structured analytical behaviour that is applied
 consistently regardless of context. The `systems-thinking` skill does not add
-domain knowledge that an experienced reviewer lacks — both the skill-guided and
+domain knowledge that an experienced reviewer lacks: both the skill-guided and
 unskilled configurations of Claude correctly identify that a lithium hydroxide
 project's business case depends on lithium prices, or that a Finnish
 first-of-a-kind refinery requires an environmental permit under the YVA
@@ -578,7 +637,7 @@ analytical tests are applied in the same sequence with the same vocabulary,
 every time, regardless of project sector.
 
 This has three consequences. First, gaps that fall outside the reviewer's
-habitual focus cannot be skipped — the framework forces completion across all
+habitual focus cannot be skipped; the framework forces completion across all
 fifteen rules. Second, findings are expressed in a standardised vocabulary,
 making cross-project comparison tractable in a way that prose summaries cannot
 be. Third, the output format is board-ready by design: a supervisory board
@@ -606,7 +665,7 @@ budget for all but the most resource-constrained deployments.
 
 `SKILL.md` carries YAML frontmatter with a description that functions as the
 primary triggering mechanism. The description lists the specific phrase
-contexts that should activate the skill — "systems thinking audit", "check for
+contexts that should activate the skill: "systems thinking audit", "check for
 systemic risks", "megaproject risk review", "SYS audit", "what could go wrong
 with this project", as well as implicit contexts such as a project director
 sharing a project document before a board approval gate.
@@ -634,7 +693,7 @@ The skill applies a defined five-step process:
    correctable during execution.
 
 5. **Recommend next actions** — map gaps to tools from the minimal stack (see
-   Section 3.8) and to the three integrated marketplace skills, producing a
+   Section 3.8) and to the three integrated marketplace skills, and produce a
    prioritised action table with owner, output, and timeframe.
 
 ### 3.5 The Fifteen SYS Rules
@@ -670,7 +729,7 @@ in FOAK programmes, as Olkiluoto 3 and Vogtle showed. SYS-03 (regulatory map)
 and SYS-11 (business case stress test) compound in market-dependent projects
 such as CCS or energy storage, where the regulatory framework directly
 determines the economics. Reviewers are instructed to identify and surface
-these compounding interactions, not just score each rule in isolation.
+these compounding interactions rather than score each rule in isolation.
 
 Note also the direct connection to the execution-phase skills: SYS-06
 (risk-adjusted estimate) is operationalised by the `budget-estimator` skill
@@ -714,8 +773,8 @@ reviewers, replacing ad hoc language with a controlled vocabulary:
 11. Stakeholder legitimacy not mapped
 12. O&M not in scope of definition
 
-Where a flag applies, the skill is instructed to use the exact phrase — not a
-paraphrase — in the Omission Flags section of the report. This enables
+Where a flag applies, the skill is instructed to use the exact phrase, not a
+paraphrase, in the Omission Flags section of the report. This enables
 automated screening of audit outputs across a project portfolio and makes it
 straightforward to track whether identified gaps are resolved at subsequent
 gate reviews. Appendix C maps each flag to its triggering rule rating.
@@ -747,8 +806,8 @@ follow-on tools, matching specific SYS rules to purpose-built capabilities:
 | `literature-review` | SYS-07 | Reference class forecasting, IPA benchmarks |
 
 The skill does not auto-invoke these tools; it flags their applicability in the
-recommended next actions section, preserving user control over which follow-on
-analyses to commission. These three tools address the three rules most commonly
+recommended next actions section, which preserves user control over which
+follow-on analyses to commission. These three tools address the three rules most commonly
 found ABSENT or PARTIAL in initial audits. Applying them in sequence converts a
 "maturity 2" project definition into a defensible stage-gate submission.
 
@@ -759,7 +818,7 @@ found ABSENT or PARTIAL in initial audits. Applying them in sequence converts a
 ### 4.1 Why Single-Point Estimates Fail Before Final Investment Decision
 
 The standard practice in capital project development is to produce a
-single-point cost estimate at each stage gate — a number that is then treated
+single-point cost estimate at each stage gate: a number that is then treated
 as a commitment rather than a probability. This creates a structural problem:
 single-point estimates carry implicit assumptions about scope, productivity,
 and market conditions that are never made explicit and that are rarely
@@ -768,14 +827,14 @@ interrogated by reviewers who see only the final number.
 The consequence is systematic optimism bias. IPA research across 20,000
 projects shows that single-point estimates systematically underestimate final
 cost because estimators anchor to base conditions and underweight the upper
-tail of the cost distribution — tail events (changed ground conditions,
-regulatory delays, supply chain disruptions) that are individually unlikely but
+tail of the cost distribution. Tail events such as changed ground conditions,
+regulatory delays, and supply chain disruptions are individually unlikely but
 collectively almost certain to affect a multi-year capital project.
 
 The AACE International recommended practice RP 18R-97 addresses this directly:
-a project's cost estimate should be accompanied by a probability distribution,
-not just a central value, and contingency should be sized to cover the P80 or
-P90 outcome, not the P50 alone. This is precisely the requirement that SYS-06
+a project's cost estimate should be accompanied by a probability distribution
+rather than a central value alone, and contingency should be sized to cover
+the P80 or P90 outcome, not the P50 alone. This is precisely the requirement that SYS-06
 (risk-adjusted estimate) tests for in the systems-thinking audit. In practice,
 the requirement is rarely met because building a proper Monte Carlo model
 requires specialist software and significant effort. The budget-estimator skill
@@ -792,19 +851,19 @@ minute:
   the simulated cost distribution. P50 is the planning basis; P90 is the
   risk-adjusted ceiling for budget approval and contingency sizing
 - **A cost distribution histogram** showing the full shape of the simulation
-  output, making visible whether the distribution is approximately symmetric or
-  heavily right-skewed (indicating large upside risk)
+  output, which makes visible whether the distribution is approximately
+  symmetric or heavily right-skewed (large upside risk)
 - **A sensitivity tornado chart** ranking work packages by their Spearman rank
-  correlation with total CAPEX across all iterations — identifying precisely
-  which cost elements are driving the P90 and where additional engineering
+  correlation with total CAPEX across all iterations, which identifies
+  precisely which cost elements drive the P90 and where additional engineering
   definition would most reduce uncertainty
 - **A work-package breakdown chart** comparing P50 and P90 by WBS element,
   making it possible to direct contingency toward the packages that need it
   rather than spreading it uniformly
 
-Each work package can be specified parametrically — using the heuristics
+Each work package can be specified parametrically, using the heuristics
 library (EUR/km by pipe diameter and terrain, H2 material premium, compression
-station cost per MW) — or as a direct cost entry with an uncertainty range. The
+station cost per MW), or as a direct cost entry with an uncertainty range. The
 AACE estimate class (1 through 5) is selected by the user and determines the
 default accuracy bounds applied to each work package: Class 5 (conceptual
 screening) applies −20%/+50%; Class 3 (FEED-stage study) applies −10%/+20%;
@@ -812,14 +871,14 @@ Class 1 (definitive) applies −3%/+10%.
 
 Contingency is reported as P90 minus P50, not as a flat percentage added to a
 point estimate. This means the contingency is sensitive to actual scope
-definition — packages with high parametric uncertainty contribute more to the
+definition: packages with high parametric uncertainty contribute more to the
 P90 gap than packages with tight engineering definitions, which is the correct
 behaviour for managing pre-FID risk.
 
 On the hydrogen pipeline example, the Class 3 estimate produces a P50 of
 EUR 1,833M and a P90 of EUR 1,930M against the approved FID CAPEX of
-EUR 1,749M. The P50 is 5 percent above the approved budget — within the
-±10/20% accuracy band of a FEED-stage estimate — and the P90 implies a
+EUR 1,749M. The P50 is 5 percent above the approved budget, within the
+±10/20% accuracy band of a FEED-stage estimate, and the P90 implies a
 contingency requirement of EUR 97M (5.3%). The tornado chart identifies WBS-1.1
 (Mainline North) as the dominant driver of the P90 spread, consistent with the
 ground conditions risk identified in the project risk register.
@@ -828,12 +887,12 @@ ground conditions risk identified in the project risk register.
 
 ## 5. The EVM Module: From Calculation to Institutional Discipline
 
-### 5.1 What Earned Value Management Is — and Why It Is Underused
+### 5.1 What Earned Value Management Is, and Why It Is Underused
 
 Earned Value Management is the internationally recognised standard
 (ANSI/EIA-748) for integrating cost and schedule performance measurement. Its
-core logic is simple: at any point in a project, you can compute not just what
-you have spent (Actual Cost, ACWP), but what you *should* have spent for the
+core logic is simple: at any point in a project, you can compute both what
+you have spent (Actual Cost, ACWP) and what you *should* have spent for the
 work you have actually completed (Earned Value, BCWP). The ratio of earned
 value to actual cost is the Cost Performance Index (CPI). A CPI of 0.91 means
 you are spending EUR 1.10 to deliver EUR 1.00 of budgeted work.
@@ -841,12 +900,12 @@ you are spending EUR 1.10 to deliver EUR 1.00 of budgeted work.
 The power of EVM lies in its predictive validity. Research across thousands of
 projects has established that the CPI at the 20 percent completion milestone is
 a reliable predictor of final outcome. Projects that are underperforming at 20
-percent completion rarely recover to budget — and when they do, it is because
+percent completion rarely recover to budget; when they do, it is because
 management intervened early, not because efficiency spontaneously improved.^16^
 
 Despite this, EVM is performed inconsistently in practice. The calculation
 requires integrating cost actuals, progress measurements, and the original
-budget baseline — data that typically live in three or four separate systems
+budget baseline, data that typically live in three or four separate systems
 and require manual reconciliation. Under schedule pressure, this reconciliation
 gets abbreviated. The result is that the single most powerful early warning
 indicator available to project management is produced late, inconsistently, or
@@ -855,9 +914,9 @@ not at all.
 ### 5.2 What the EVM Module Delivers
 
 Given a CSV file containing WBS codes, budget at completion (BAC), planned
-value (BCWS), earned value (BCWP), and actual cost (ACWP) — data that any
-functioning cost control system produces — the EVM module generates, in under
-two minutes:
+value (BCWS), earned value (BCWP), and actual cost (ACWP), all data that any
+functioning cost control system produces, the EVM module generates the
+following in under two minutes:
 
 - **A complete markdown report** with executive summary, WBS-level performance
   table with RAG status, three EAC forecasts (CPI method, composite CPI×SPI
@@ -877,12 +936,12 @@ two minutes:
 The RAG thresholds applied are industry-standard: CPI or SPI ≥ 0.95 = GREEN;
 0.85–0.94 = AMBER; < 0.85 = RED. The composite CPI×SPI EAC method is
 recommended for board reporting, because it accounts for schedule pressure
-compounding cost efficiency loss — the dominant failure pattern in large
-capital projects.
+compounding cost efficiency loss, which is the dominant failure pattern in
+large capital projects.
 
 For the hydrogen pipeline example included with the system, this method
 produces an EAC of EUR 1.637 billion against an approved BAC of EUR 1.350
-billion for the contracted scope — a 21 percent overrun signal at month five of
+billion for the contracted scope: a 21 percent overrun signal at month five of
 a 36-month execution programme, early enough for effective intervention.
 WBS-1.1 (Mainline North) is identified as the primary driver: its SPI of 0.750
 (RED) reflects a linepipe delivery delay caused by port congestion, and if SPI
@@ -898,7 +957,7 @@ it does not require replacing any existing tool.
 **Primavera P6.** Schedule data is ingested via `.xer` export files using the
 P6XER MCP (Model Context Protocol) server. This allows Claude Code to read P6
 project schedules directly, extract critical path float, identify milestone
-forecast dates, and feed schedule data into the schedule-analyzer agent —
+forecast dates, and feed schedule data into the schedule-analyzer agent,
 without requiring a P6 licence or database connection in the AI environment.
 
 **Excel and CSV cost systems.** Any cost control system that can export EVM
@@ -919,25 +978,27 @@ monthly board reporting pack without manual transcription.
 **Atlassian and collaboration tools.** The Atlassian MCP server enables action
 items generated by the AI (e.g., from the risk-assessor or schedule-analyzer
 agents) to be logged directly as Jira tickets with assigned owners and due
-dates, completing the loop from AI analysis to trackable task.
+dates, which closes the loop from AI analysis to trackable task.
 
 ---
 
 ## 6. Evaluation: Does the Skill Approach Work?
 
-The claim underlying the entire suite — that encoding analytical frameworks as
-skills produces more consistent, complete, and comparable outputs than relying
-on unaided AI capability — has been tested empirically on the
-`systems-thinking` skill, the component where the claim is least obvious. (For
+The claim underlying the entire suite is that encoding analytical frameworks
+as skills produces more consistent, complete, and comparable outputs than
+relying on unaided AI capability. It has been tested empirically on the
+`systems-thinking` skill, the component where the claim is least obvious. For
 the EVM and budget-estimator skills, the computational core is deterministic
-Python; consistency is a property of the code. For the audit skill, consistency
-must be demonstrated.)
+Python; consistency is a property of the code. For the behavioural skills (the
+audit skill, and by extension `gate-readiness` and `lessons-learned`, which
+enforce checklists and templates the same way), consistency must be
+demonstrated.
 
 ### 6.1 Methodology
 
 The skill was evaluated using the `skill-creator` framework, which runs
-parallel Claude Code agent instances — one with the skill loaded, one without —
-against the same test prompts, then grades outputs against structured
+parallel Claude Code agent instances, one with the skill loaded and one
+without, against the same test prompts, then grades outputs against structured
 assertions.
 
 Three test scenarios were designed to cover different project types, decision
@@ -966,8 +1027,8 @@ has not been stress-tested against carbon price and demand fluctuations
 #### Scenario 2: Hospital EHR Transformation, Germany
 
 A €340 million EHR transformation programme spanning eight German hospitals,
-with Phase 1 declared complete but Phase 2 — clinical integration and workflow
-adoption — not started. The scenario provides a programme update presented to
+with Phase 1 declared complete but Phase 2 (clinical integration and workflow
+adoption) not started. The scenario provides a programme update presented to
 the supervisory board.
 
 The systemic risks in this scenario include the critical distinction between
@@ -991,8 +1052,8 @@ from one Australian mine (SYS-09).
 ### 6.3 Assertions
 
 Assertions were designed to test structural and vocabulary compliance, not
-domain knowledge. Domain-knowledge assertions — "does the output identify the
-hydrogen pipeline gap?" — were expected to pass in both configurations, because
+domain knowledge. Domain-knowledge assertions such as "does the output
+identify the hydrogen pipeline gap?" were expected to pass in both configurations, because
 an unaided Claude model has adequate knowledge of hydrogen value chains,
 Finnish permitting law, and lithium market dynamics. The discriminating
 assertions test whether the skill-mandated framework is applied:
@@ -1040,9 +1101,9 @@ and vocabulary assertions. Without the skill:
 
 In all three scenarios, the without-skill output correctly identified the
 material domain risks. The score penalty was structural, not substantive. This
-is precisely the value proposition: the skill does not supply knowledge that an
+is the value proposition: the skill does not supply knowledge that an
 experienced reviewer lacks. It supplies the framework that makes outputs
-comparable, complete, and auditable.
+comparable across projects and auditable across gate reviews.
 
 The with-skill outputs were also faster by an average of 144.5 seconds. The
 structured fifteen-rule framework reduced decision overhead: instead of
@@ -1067,7 +1128,7 @@ recommends_tool_stack
 These assertions fail in every without-skill run because the unaided model
 invents a different framework each time.
 
-**Non-discriminating (both pass):** Domain-knowledge assertions — whether the
+**Non-discriminating (both pass):** Domain-knowledge assertions: whether the
 output identifies the hydrogen pipeline gap, the Finnish permit requirement,
 the 18% IRR stress-test problem, the spodumene supply-chain risk. Both
 configurations pass these in all three scenarios. The conclusion is confirmed:
@@ -1091,14 +1152,14 @@ value levers:
 #### Lever 1 — Systemic gaps surfaced before capital is committed
 
 The pre-FID window is where remediation is cheapest. Every one of the fifteen
-failure cases in Section 1.2 involved a gap that was knowable — and in most
-cases known to someone — before FID, but that was not surfaced to the decision
+failure cases in Section 1.2 involved a gap that was knowable before FID (and
+in most cases known to someone), but that was not surfaced to the decision
 gate in a form the approving body could act on. A structured audit that forces
 completion across all fifteen rules, at a cost of hours rather than weeks,
 changes the economics of gate review: the board sees a maturity score, a ranked
 gap list, and an explicit statement of what has *not* been evidenced, before
-committing capital. A single regulatory or value-chain gap caught pre-FID —
-where the remedy is analysis and renegotiation rather than write-off — can be
+committing capital. A single regulatory or value-chain gap caught pre-FID,
+where the remedy is analysis and renegotiation rather than write-off, can be
 worth the entire programme cost many times over.
 
 #### Lever 2 — Earlier detection of adverse trends in execution
@@ -1111,10 +1172,9 @@ commitments, subcontractor mobilisation costs, and lost float compound the
 original deviation.
 
 The system makes the trend visible in the first reporting period it appears,
-rather than the third. On a EUR 1 billion project, even a single such early
-intervention — preventing a 2 percent cost growth that would otherwise
-materialise — generates a return that exceeds the entire cost of implementing
-and operating the system.
+rather than the third. On a EUR 1 billion project, even one early intervention
+that prevents a 2 percent cost growth generates a return that exceeds the
+entire cost of implementing and operating the system.
 
 #### Lever 3 — Consistent application of escalation rules
 
@@ -1129,10 +1189,10 @@ where the cost engineer's judgment falls.
 #### Lever 4 — Reduced cost of producing controls outputs
 
 Companies using AI-assisted project management tools report an average 15
-percent improvement in project delivery productivity.^17^ On the specific task
-of monthly reporting — which typically consumes 3–5 working days per reporting
-period for a major project's controls team — consistent findings indicate that
-AI assistance reduces this by 40–60 percent. This frees experienced project
+percent improvement in project delivery productivity.^17^ Monthly reporting
+typically consumes 3–5 working days per reporting period for a major project's
+controls team; consistent findings indicate that AI assistance reduces this by
+40–60 percent. This frees experienced project
 controls professionals to perform root cause analysis, contractor engagement,
 and recovery planning rather than data assembly and chart production.
 
@@ -1162,19 +1222,19 @@ Against this, the implementation costs are modest:
 The implied return on investment exceeds 100:1 on conservative assumptions,
 driven almost entirely by the value of a single avoided late-stage
 intervention. The ratio improves further on a portfolio of projects, where the
-fixed infrastructure cost (licences, governance, templates) is shared — and
+fixed infrastructure cost (licences, governance, templates) is shared, and
 where the systems-thinking audit adds portfolio-level comparability that no
 amount of ad hoc review can provide.
 
 ### 7.3 Contextual Benchmark
 
 Companies that use AI-driven tools in project management deliver 61 percent of
-their projects on time, compared to 47 percent for those that do not — a
+their projects on time, compared to 47 percent for those that do not, a
 14-percentage-point improvement.^18^ On a programme of five concurrent capital
 projects, each averaging EUR 500 million in CAPEX, moving one project from the
-"late" to "on-time" bucket — with a typical delay cost of 5–10 percent of CAPEX
-— represents EUR 25–50 million in value creation from the portfolio uplift
-alone.
+"late" to "on-time" bucket, with a typical delay cost of 5–10 percent of
+CAPEX, represents EUR 25–50 million in value creation from the portfolio
+uplift alone.
 
 The open-source code base eliminates implementation risk as a financial
 objection: the system can be inspected in detail before deployment, extended
@@ -1216,8 +1276,8 @@ bypass analytical understanding.
 
 *Likelihood: High without change management. Consequence: Medium.*
 The most effective mitigation is framing. This system removes the least
-engaging portions of a cost engineer's work — data assembly, chart production,
-threshold checking — and returns time for the high-judgment work that
+engaging portions of a cost engineer's work (data assembly, chart production,
+threshold checking) and returns time for the high-judgment work that
 experienced professionals value. Early engagement of senior project controls
 staff in the pilot design, and visible credit for the improved reporting
 outputs, is the primary change management lever.
@@ -1242,19 +1302,19 @@ and closes the gaps that would otherwise persist undetected.
 #### Risk: Pilot succeeds but rollout stalls
 
 *Likelihood: Medium without board sponsorship. Consequence: High.*
-The pattern of successful pilot — stalled rollout — is the dominant failure
+A successful pilot followed by a stalled rollout is the dominant failure
 mode for enterprise technology adoption. The mitigation is board-level
 ownership of the rollout mandate and a defined CAPEX threshold above which the
 system is mandatory, not optional.
 
 ### 7.6 What This System Does Not Do
 
-It is equally important to state explicitly what this system does not replace:
+Equally important is what this system does not replace:
 
 - It does not replace the Project Director's judgment on whether to escalate a
   situation to the board, or the board's judgment on whether to approve FID
 - It does not supply domain knowledge that an experienced reviewer lacks; it
-  supplies the framework that makes review complete, comparable, and auditable
+  supplies the framework that makes review complete and comparable
 - It does not negotiate with contractors, assess claim merits, or draft legal
   correspondence without human review
 - It does not produce FID-quality bottom-up cost estimates; the budget
@@ -1286,6 +1346,8 @@ SK=~/.claude/skills
 cp -r evm/ $SK/evm/
 cp -r budget-estimator/ $SK/budget-estimator/
 cp -r systems-thinking/ $SK/systems-thinking/
+cp -r gate-readiness/ $SK/gate-readiness/
+cp -r lessons-learned/ $SK/lessons-learned/
 pip install -r $SK/evm/requirements.txt
 pip install -r $SK/budget-estimator/requirements.txt
 
@@ -1310,6 +1372,8 @@ Each skill triggers automatically on intent, not exact keywords:
 | `systems-thinking` | "systems thinking audit", "SYS audit", blind-spot check; project docs before board/FID gate |
 | `budget-estimator` | "estimate CAPEX", "P50/P90", Monte Carlo; YAML with `work_packages:` |
 | `evm` | "run EVM", "earned value", CPI/SPI, EAC; CSV with bac/bcws/bcwp/acwp columns |
+| `gate-readiness` | "gate readiness", "are we ready for FID?", "assemble the gate pack", stage-gate submission |
+| `lessons-learned` | "lessons learned", "close-out review", "estimate vs actual", "calibrate heuristics" |
 
 ### 8.3 What Input to Provide to the Audit Skill
 
@@ -1384,6 +1448,10 @@ can be tracked across gate reviews to verify closure.
    register update
 5. **Assemble report deck** — use the `pptx` skill to build the monthly
    progress presentation from the EVM report and chart files
+6. **At decision gates** — type *"gate readiness"* to assemble and assess the
+   evidence pack before any stage-gate or re-baselining decision
+7. **At package or project completion** — type *"lessons learned"* to run the
+   close-out review and generate the heuristics calibration proposal
 
 ---
 
@@ -1471,9 +1539,9 @@ gate reviews:
 
 ## Appendix E — Technical Resource
 
-The working system — EVM skill, budget estimator, systems-thinking audit skill,
+The working system (EVM skill, budget estimator, systems-thinking audit skill,
 scaffolding templates, domain heuristics, JSON schemas, specialist agent
-definitions, and a complete example project — is available at:
+definitions, and a complete example project) is available at:
 
 [github.com/jmeier1963/large_capital_project_management](https://github.com/jmeier1963/large_capital_project_management)
 
@@ -1484,6 +1552,8 @@ The repository includes:
 - `budget-estimator/budget_estimator.py` — parametric CAPEX engine with P50/P90
   Monte Carlo
 - `systems-thinking/` — audit skill, SYS rule criteria, evaluation scenarios
+- `gate-readiness/` — stage-gate evidence pack skill with per-gate evidence matrix
+- `lessons-learned/` — close-out review and heuristics calibration skill
 - `scaffolding/` — project configuration templates for immediate deployment
 - `examples/H2-PIPE-DE-001/` — worked example: 500 km H2 pipeline, EVM data
 - `README.md` — step-by-step installation and usage instructions

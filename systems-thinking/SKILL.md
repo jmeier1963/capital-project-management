@@ -86,7 +86,7 @@ Map each critical gap to a concrete tool from the minimal stack:
 | Regulatory Map | SYS-03 |
 | Design-Maturity Register | SYS-04 |
 | Interface Register | SYS-05 |
-| Risk-Adjusted Estimate (Monte Carlo) | SYS-06 |
+| Risk-Adjusted Estimate (Monte Carlo) — use the `budget-estimator` skill | SYS-06 |
 | Reference Class Forecast | SYS-07 |
 | Integration Sub-Project Plan | SYS-08 |
 | Supply-Chain Readiness Assessment | SYS-09 |
@@ -96,6 +96,22 @@ Map each critical gap to a concrete tool from the minimal stack:
 | ConOps / ORAT Plan | SYS-13 |
 | FOAK Learning Plan | SYS-14 |
 | Portfolio/Platform Review | SYS-15 |
+
+### Step 6 — Check for a prior audit (re-audit tracking)
+
+If a previous systems-thinking audit report exists for this project (in the
+project directory or provided by the user), this is a **re-audit**:
+
+- Compare every rule rating against the prior audit and mark movement
+  (improved / unchanged / regressed)
+- State which omission flags from the prior audit have been **closed**, which
+  remain **open**, and whether any new flags have appeared
+- Report the maturity score delta explicitly (e.g. "2/5 → 3/5")
+- An open flag carried across two consecutive gate reviews is itself a
+  governance finding — say so
+
+Add a "Change Since Last Audit" section to the report directly after the
+maturity score. If no prior audit exists, omit the section.
 
 ## Output Format
 
@@ -191,6 +207,14 @@ This audit is for project directors and supervisory/advisory board members. Writ
 ## Leveraging other skills
 
 For deeper analysis of specific dimensions, suggest (don't auto-invoke without user confirmation):
+
+**Within this skill suite:**
+
+- **SYS-06 risk-adjusted estimate** → suggest the `budget-estimator` skill to produce the P50/P90 estimate directly; this is the standard remediation for a SYS-06 gap
+- **Gate assembly** → once critical gaps are being closed, suggest the `gate-readiness` skill to compile the evidence pack and verify completeness against the gate criteria
+- **Post-audit follow-through** → audit artifacts (interface register, regulatory map, kill criteria) become monitored items in the execution-phase data store; the `evm` skill and specialist agents pick them up from there
+
+**Marketplace skills:**
 
 - **SYS-11 scenario stress-testing** → suggest `/what-if-oracle` for structured multi-branch business case scenarios
 - **SYS-03 regulatory lookups** → suggest `/perplexity-search` to retrieve current permit requirements, tax rules, or subsidy frameworks
